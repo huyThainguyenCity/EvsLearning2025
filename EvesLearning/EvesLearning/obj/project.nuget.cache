@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "20jG2PjhQS6p7sAayPGlDNLhDWvrZvwOxnO8zcgpt2NYMnHSLvu6zo6osu/wC3A26uEYM4cO8/CAtmfOWA2VPw==",
+  "dgSpecHash": "w3i9vgsWjE3PvNWYa53MvNQH8Qa2ZnUlue4rtj6HMtFa5jsvV1u8DPXZWAQwjwBkxFP5ZmFqTYdx69WXNFFRSQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\huydq\\source\\repos\\EvesLearning\\EvesLearning\\EvesLearning.csproj",
+  "projectFilePath": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning\\EvesLearning.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\huydq\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\huydq\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",

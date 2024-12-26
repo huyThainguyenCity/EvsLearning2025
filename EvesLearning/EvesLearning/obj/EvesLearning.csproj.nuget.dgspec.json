@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\huydq\\source\\repos\\EvesLearning\\EvesLearning\\EvesLearning.csproj": {}
+    "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning\\EvesLearning.csproj": {}
   },
   "projects": {
-    "C:\\Users\\huydq\\source\\repos\\EvesLearning\\EvesLearning\\EvesLearning.csproj": {
+    "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning\\EvesLearning.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\huydq\\source\\repos\\EvesLearning\\EvesLearning\\EvesLearning.csproj",
+        "projectUniqueName": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning\\EvesLearning.csproj",
         "projectName": "EvesLearning",
-        "projectPath": "C:\\Users\\huydq\\source\\repos\\EvesLearning\\EvesLearning\\EvesLearning.csproj",
+        "projectPath": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning\\EvesLearning.csproj",
         "packagesPath": "C:\\Users\\huydq\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\huydq\\source\\repos\\EvesLearning\\EvesLearning\\obj\\",
+        "outputPath": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

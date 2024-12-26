@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\huydq\\source\\repos\\EvesLearning\\EvesLearning2025\\EvesLearning2025.csproj",
+      "projectUniqueName": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\EvesLearning2025.csproj",
       "projectName": "EvesLearning2025",
-      "projectPath": "C:\\Users\\huydq\\source\\repos\\EvesLearning\\EvesLearning2025\\EvesLearning2025.csproj",
+      "projectPath": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\EvesLearning2025.csproj",
       "packagesPath": "C:\\Users\\huydq\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\huydq\\source\\repos\\EvesLearning\\EvesLearning2025\\obj\\",
+      "outputPath": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
