@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets\\css\\home.css"
     },
     {
+      "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\css\\question.css",
+      "PackagePath": "staticwebassets\\css\\question.css"
+    },
+    {
       "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
@@ -33,12 +37,24 @@
       "PackagePath": "staticwebassets\\image\\course-8-1-450x450.jpg"
     },
     {
+      "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\image\\hallstatt-village-cr-800x300.jpg",
+      "PackagePath": "staticwebassets\\image\\hallstatt-village-cr-800x300.jpg"
+    },
+    {
       "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\image\\logo.png",
       "PackagePath": "staticwebassets\\image\\logo.png"
     },
     {
       "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\home.js",
       "PackagePath": "staticwebassets\\js\\home.js"
+    },
+    {
+      "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\question.js",
+      "PackagePath": "staticwebassets\\js\\question.js"
+    },
+    {
+      "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\questionlevel.js",
+      "PackagePath": "staticwebassets\\js\\questionlevel.js"
     },
     {
       "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\site.js",

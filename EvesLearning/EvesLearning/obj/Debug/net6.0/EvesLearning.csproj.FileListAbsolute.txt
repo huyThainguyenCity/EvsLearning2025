@@ -65,3 +65,4 @@ C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning\bin
 C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning\bin\Debug\net6.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
 C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning\bin\Debug\net6.0\BusinessObject.dll
 C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning\bin\Debug\net6.0\BusinessObject.pdb
+C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning\bin\Debug\net6.0\Dapper.dll

@@ -1,4 +1,4 @@
-using BusinessObject.Models;
+﻿using BusinessObject.Models;
 using EvesLearning.IRepository;
 using EvesLearning.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +14,12 @@ builder.Services.AddDbContext<eLearningContext>(option => option.UseSqlServer(bu
 builder.Services.AddScoped<eLearningContext>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IQuestionRepositoy, QuestionRepository>();
-
+// Thêm dịch vụ CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
@@ -27,6 +32,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAllOrigins");
 
 app.UseAuthorization();
 

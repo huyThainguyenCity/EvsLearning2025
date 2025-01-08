@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "NQU5ttDb+LNf8+Di1kUONJhxJPOeoVsYHK7YhmR3guihnu+vqKtQxV+wSWcjghY+RGfQRPI6egvJmab5LKC5yA==",
+  "dgSpecHash": "hVPZru1l4HpaX35Ox78f1rbD7VN4+voqIpwVdWviK7x32NdXNKQRDkCRXldzuQXT4VksUVFlHQVHfX/iH9/Cdw==",
   "success": true,
   "projectFilePath": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning\\EvesLearning.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\huydq\\.nuget\\packages\\dapper\\2.1.35\\dapper.2.1.35.nupkg.sha512",
     "C:\\Users\\huydq\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\huydq\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\huydq\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.4\\microsoft.data.sqlclient.2.1.4.nupkg.sha512",
