@@ -286,6 +286,16 @@ namespace EvesLearning.Repository
                         CorrectAnswer = string.Empty // hoặc gán null, tùy trường hợp
                     };
                 }
+                // Kiểm tra nếu người dùng không chọn câu trả lời
+                if (string.IsNullOrEmpty(userAnswer.SelectedAnswer))
+                {
+                    return new AnswerResultDTO
+                    {
+                        QuestionId = userAnswer.QuestionId,
+                        IsCorrect = false,
+                        CorrectAnswer = question.Correct // Hiển thị đáp án đúng
+                    };
+                }
 
                 // Kiểm tra nếu câu trả lời của người dùng đúng
                 var isCorrect = question.Correct == userAnswer.SelectedAnswer;

@@ -8,5 +8,15 @@ namespace EvesLearning2025.Controllers
         {
             return View();
         }
+        public IActionResult QuestionAdmin()
+        {
+            ViewBag.Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+            return View();
+        }
+        public IActionResult QuestionLevelAdmin()
+        {
+            ViewBag.Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+            return View();
+        }
     }
 }

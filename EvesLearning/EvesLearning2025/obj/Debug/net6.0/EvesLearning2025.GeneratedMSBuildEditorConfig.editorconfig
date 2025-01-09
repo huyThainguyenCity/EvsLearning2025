@@ -32,12 +32,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/huydq/Desktop/EvsLearning/EvsLearning2025/EvesLearning/EvesLearning2025/Views/QuestionLevel/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVlc3Rpb25MZXZlbFxJbmRleC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/huydq/Desktop/EvsLearning/EvsLearning2025/EvesLearning/EvesLearning2025/Views/Question/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVlc3Rpb25cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/huydq/Desktop/EvsLearning/EvsLearning2025/EvesLearning/EvesLearning2025/Views/Question/QuestionAdmin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVlc3Rpb25cUXVlc3Rpb25BZG1pbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/huydq/Desktop/EvsLearning/EvsLearning2025/EvesLearning/EvesLearning2025/Views/Question/QuestionLevelAdmin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUXVlc3Rpb25cUXVlc3Rpb25MZXZlbEFkbWluLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/huydq/Desktop/EvsLearning/EvsLearning2025/EvesLearning/EvesLearning2025/Views/Shared/Error.cshtml]

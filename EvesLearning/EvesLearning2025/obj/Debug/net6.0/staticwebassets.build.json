@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "uvdUeyWDZzTo/kVaYK9JZYsXD/UKFGXmYHMT+MenzSY=",
+  "Hash": "ipKss+ZgY9G9s+xYioj1WTQK7y2mp1ZsvWSnfPxrLCc=",
   "Source": "EvesLearning2025",
   "BasePath": "_content/EvesLearning2025",
   "Mode": "Default",
@@ -265,6 +265,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\question.js"
+    },
+    {
+      "Identity": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\questionadmin.js",
+      "SourceId": "EvesLearning2025",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\",
+      "BasePath": "_content/EvesLearning2025",
+      "RelativePath": "js/questionadmin.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\questionadmin.js"
     },
     {
       "Identity": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\questionlevel.js",

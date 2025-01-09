@@ -74,6 +74,45 @@
 
     fetchData(); // Gọi hàm fetchData để lấy dữ liệu khi trang web tải xong
 
+    let timer; // Biến đếm ngược toàn cục
+
+    function startTimer(duration) {
+        const timerElement = document.getElementById("timer");
+        let remainingTime = duration; // Thời gian còn lại tính bằng giây
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(remainingTime / 60).toString().padStart(2, "0");
+            const seconds = (remainingTime % 60).toString().padStart(2, "0");
+            timerElement.textContent = `Thời gian còn lại: ${minutes}:${seconds}`; // Định dạng luôn là mm:ss
+        }
+
+        const interval = setInterval(() => {
+            updateTimerDisplay();
+            if (remainingTime <= 0) {
+                clearInterval(interval);
+                timerElement.textContent = "Hết thời gian!";
+                timerElement.style.color = "white";  // Đổi màu thành đỏ khi hết giờ
+                shakeTimer();  // Thêm hiệu ứng rung
+                alert("Hết thời gian!");
+                submitQuiz(); // Gọi hàm tự động nộp bài
+            }
+            remainingTime--;
+        }, 1000);
+
+        // Hiển thị lần đầu tiên khi bắt đầu
+        updateTimerDisplay();
+    }
+
+    // Thêm hiệu ứng rung cho đồng hồ khi hết thời gian
+    function shakeTimer() {
+        const timerElement = document.getElementById("timer");
+        timerElement.classList.add("shake");
+        setTimeout(() => {
+            timerElement.classList.remove("shake");
+        }, 500); // Rung trong 0.5 giây
+    }
+
+
     let isSubmitted = false;  // Cờ kiểm tra đã nộp chưa
 
     function submitQuiz() {
@@ -98,11 +137,11 @@
             }
         });
 
-        // Kiểm tra nếu người dùng chưa chọn đáp án cho câu hỏi nào
-        if (userAnswers.length !== questionData.length) {
-            alert("Bạn chưa trả lời đầy đủ các câu hỏi!");
-            return;
-        }
+        //// Kiểm tra nếu người dùng chưa chọn đáp án cho câu hỏi nào
+        //if (userAnswers.length !== questionData.length) {
+        //    alert("Bạn chưa trả lời đầy đủ các câu hỏi!");
+        //    return;
+        //}
 
         // Gửi câu trả lời của người dùng tới API để kiểm tra
         fetch("https://localhost:7118/api/Question/GetCheckQuestion", {
@@ -139,7 +178,7 @@
 
                         // Thêm phần tử kết quả vào câu hỏi
                         questionDiv.appendChild(resultDiv);
-                    }
+                    }             
                 });
                 console.log(data);
 
@@ -149,4 +188,5 @@
                 alert("Có lỗi xảy ra khi gửi câu trả lời.");
             });
     }
+    startTimer(10);
 });
