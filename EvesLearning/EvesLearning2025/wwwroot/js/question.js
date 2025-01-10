@@ -1,21 +1,13 @@
-﻿document.addEventListener("DOMContentLoaded", function () {
+﻿$(document).ready(function () {
     let questionData = [];
 
     // Fetch data từ API
     function fetchData() {
-        fetch("https://localhost:7118/api/Question/GetAllQuestion", {
-            method: "POST", // Giữ nguyên POST nếu bạn muốn
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
+        $.ajax({
+            url: "https://localhost:7118/api/Question/GetAllQuestion",
+            type: "POST",
+            contentType: "application/json",
+            success: function (data) {
                 questionData = data; // Lưu dữ liệu vào questionData
 
                 const quizContainer = document.getElementById("quizContainer");
@@ -65,12 +57,14 @@
                 quizContainer.appendChild(submitButton);
 
                 submitButton.addEventListener("click", submitQuiz); // Thêm sự kiện click cho nút submit
-            })
-            .catch(error => {
+            },
+            error: function (xhr, status, error) {
                 console.error("Error:", error);
                 alert("Có lỗi xảy ra khi lấy dữ liệu từ server. Vui lòng thử lại!");
-            });
+            }
+        });
     }
+
 
     fetchData(); // Gọi hàm fetchData để lấy dữ liệu khi trang web tải xong
 
@@ -137,27 +131,13 @@
             }
         });
 
-        //// Kiểm tra nếu người dùng chưa chọn đáp án cho câu hỏi nào
-        //if (userAnswers.length !== questionData.length) {
-        //    alert("Bạn chưa trả lời đầy đủ các câu hỏi!");
-        //    return;
-        //}
-
         // Gửi câu trả lời của người dùng tới API để kiểm tra
-        fetch("https://localhost:7118/api/Question/GetCheckQuestion", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(userAnswers), // Chuyển đổi dữ liệu người dùng thành JSON
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
+        $.ajax({
+            url: "https://localhost:7118/api/Question/GetCheckQuestion",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(userAnswers), // Chuyển đổi dữ liệu người dùng thành JSON
+            success: function (data) {
                 // Xử lý kết quả trả về từ API
                 data.forEach((result, index) => {
                     // Tìm câu hỏi dựa trên ID
@@ -178,15 +158,15 @@
 
                         // Thêm phần tử kết quả vào câu hỏi
                         questionDiv.appendChild(resultDiv);
-                    }             
+                    }
                 });
-                console.log(data);
-
-            })
-            .catch(error => {
+            },
+            error: function (xhr, status, error) {
                 console.error("Error:", error);
                 alert("Có lỗi xảy ra khi gửi câu trả lời.");
-            });
+            }
+        });
     }
+
     startTimer(10);
 });
