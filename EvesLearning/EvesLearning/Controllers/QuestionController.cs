@@ -30,7 +30,49 @@ namespace EvesLearning.Controllers
             }
         }
 
-        [HttpPost("GetCheckQuestion")]
+		[HttpPost("GetAllQuestionType")]
+		public async Task<IActionResult> GetAllQuestionType()
+		{
+			try
+			{
+				var result = await _questionRepositoy.GetAllQuestionType();
+				return Ok(result);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest($"Có lỗi xảy ra: {ex.Message}");
+			}
+		}
+
+        [HttpPost("GetAllQuestionGroup")]
+        public async Task<IActionResult> GetAllQuestionGroup()
+        {
+            try
+            {
+                var result = await _questionRepositoy.GetAllQuestionGroup();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Có lỗi xảy ra: {ex.Message}");
+            }
+        }
+
+		[HttpPost("GetAllQuestionGrammar")]
+		public async Task<IActionResult> GetAllQuestionGrammar()
+		{
+			try
+			{
+				var result = await _questionRepositoy.GetAllQuestionGrammar();
+				return Ok(result);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest($"Có lỗi xảy ra: {ex.Message}");
+			}
+		}
+
+		[HttpPost("GetCheckQuestion")]
         public async Task<IActionResult> GetCheckQuestion(List<UserAnswerDTO> userAnswers)
         {
             try

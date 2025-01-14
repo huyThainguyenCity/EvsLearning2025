@@ -61,8 +61,20 @@
       "PackagePath": "staticwebassets\\js\\questionadmin.js"
     },
     {
+      "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\questiongrammar.js",
+      "PackagePath": "staticwebassets\\js\\questiongrammar.js"
+    },
+    {
+      "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\questiongroup.js",
+      "PackagePath": "staticwebassets\\js\\questiongroup.js"
+    },
+    {
       "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\questionlevel.js",
       "PackagePath": "staticwebassets\\js\\questionlevel.js"
+    },
+    {
+      "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\questiontype.js",
+      "PackagePath": "staticwebassets\\js\\questiontype.js"
     },
     {
       "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\site.js",

@@ -6,7 +6,10 @@ namespace EvesLearning.IRepository
     public interface IQuestionRepositoy
     {
         Task<IEnumerable<dynamic>> GetAllQuestionLevel();
-        Task AddQuestionLevelAsync(CreateQuestionLevelDTO createQuestionLevel);
+		Task<IEnumerable<dynamic>> GetAllQuestionType();
+        Task<IEnumerable<dynamic>> GetAllQuestionGroup();
+		Task<IEnumerable<dynamic>> GetAllQuestionGrammar();
+		Task AddQuestionLevelAsync(CreateQuestionLevelDTO createQuestionLevel);
         Task UpdateQuestionLevelAsync(UpdateQuestionLevelDTO updateQuestionLevel);
         Task AddQuestionTypeAsync(CreateQuestionTypeDTO questionType);
         Task UpdateQuestionTypeAsync(UpdateQuestionTypeDTO updateQuestionType);

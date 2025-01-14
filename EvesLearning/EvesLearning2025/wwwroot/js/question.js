@@ -27,7 +27,7 @@
 
                     // Tạo tiêu đề câu hỏi
                     const questionTitle = document.createElement("h3");
-                    questionTitle.textContent = `${index + 1}. ${question.Name}`;
+                    questionTitle.innerHTML = `${index + 1}. ${question.Name}`;
                     questionDiv.appendChild(questionTitle);
 
                     // Tạo các lựa chọn câu trả lời
@@ -168,5 +168,5 @@
         });
     }
 
-    startTimer(10);
+    startTimer(60);
 });

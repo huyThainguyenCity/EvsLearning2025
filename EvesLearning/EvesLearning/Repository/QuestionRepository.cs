@@ -38,7 +38,6 @@ namespace EvesLearning.Repository
                 throw new Exception($"Error calling stored procedure: {ex.Message}");
             }
         }
-        [HttpPost]
         public async Task<IEnumerable<dynamic>> GetAllQuestionLevel()
         {
             try
@@ -60,8 +59,71 @@ namespace EvesLearning.Repository
                 throw new Exception($"Error calling stored procedure: {ex.Message}");
             }
         }
+		public async Task<IEnumerable<dynamic>> GetAllQuestionType()
+		{
+			try
+			{
+				var connectionString = _context.Database.GetDbConnection().ConnectionString;
 
-        public async Task AddQuestionGrammarAsync(CreateQuestionGrammarDTO createQuestionGrammar)
+				using var connection = new SqlConnection(connectionString);
+				await connection.OpenAsync();
+
+				var result = await connection.QueryAsync(
+					"EL_GetAllQuestionType",
+					commandType: CommandType.StoredProcedure
+				);
+
+				return result;
+			}
+			catch (Exception ex)
+			{
+				throw new Exception($"Error calling stored procedure: {ex.Message}");
+			}
+		}
+        public async Task<IEnumerable<dynamic>> GetAllQuestionGroup()
+        {
+            try
+            {
+                var connectionString = _context.Database.GetDbConnection().ConnectionString;
+
+                using var connection = new SqlConnection(connectionString);
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync(
+                    "EL_GetAllQuestionGroups",
+                    commandType: CommandType.StoredProcedure
+                );
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error calling stored procedure: {ex.Message}");
+            }
+        }
+		public async Task<IEnumerable<dynamic>> GetAllQuestionGrammar()
+		{
+			try
+			{
+				var connectionString = _context.Database.GetDbConnection().ConnectionString;
+
+				using var connection = new SqlConnection(connectionString);
+				await connection.OpenAsync();
+
+				var result = await connection.QueryAsync(
+					"EL_GetAllQuestionGrammar",
+					commandType: CommandType.StoredProcedure
+				);
+
+				return result;
+			}
+			catch (Exception ex)
+			{
+				throw new Exception($"Error calling stored procedure: {ex.Message}");
+			}
+		}
+
+		public async Task AddQuestionGrammarAsync(CreateQuestionGrammarDTO createQuestionGrammar)
         {
             if (createQuestionGrammar == null)
                 throw new ArgumentNullException(nameof(createQuestionGrammar));
@@ -310,5 +372,7 @@ namespace EvesLearning.Repository
 
             return results;
         }
-    }
+
+		
+	}
 }

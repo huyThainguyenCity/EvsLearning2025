@@ -134,3 +134,9 @@
         opacity: 0.5;
     }
 }
+
+.question img {
+    max-width: 100%; 
+    height: auto;
+    max-height: 500px;
+}
