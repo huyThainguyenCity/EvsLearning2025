@@ -25,6 +25,10 @@
                             <td>${getValue(item.DateCreated)}</td>
                             <td>${getValue(item.DateModify)}</td>
                             <td>${getValue(item.Language)}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary" data-id="${item.ID}">Cập nhật</button>
+                                <button type="button" class="btn btn-danger" data-id="${item.ID}">Xóa</button>
+                            </td> 
                         </tr>
                     `;
                     tableBody.append(row);

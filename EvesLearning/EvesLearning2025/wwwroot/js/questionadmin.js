@@ -15,7 +15,11 @@
                     const row = `
                         <tr>
                             <td>${getValue(item.ID)}</td>
-                            <td>${getValue(item.Name)}</td>
+                            <td>
+                                ${item.Name && item.Name.startsWith("http")
+                            ? `<img class="img" src="${getValue(item.Name)}" alt="Image" >`
+                            : getValue(item.Name)}
+                            </td>
                             <td>${getValue(item.Answer1)}</td>
                             <td>${getValue(item.Answer2)}</td>
                             <td>${getValue(item.Answer3)}</td>
@@ -24,7 +28,12 @@
                             <td>${getValue(item.CreatedBy)}</td>
                             <td>${getValue(item.ModifyBy)}</td>
                             <td>${getValue(item.DateCreated)}</td>
-                            <td>${getValue(item.DateModify)}</td>
+                            <td>${getValue(item.DateModify)}</td>    
+                            <td>
+                                <button type="button" class="btn btn-primary" data-id="${item.ID}">Cập nhật</button>
+                                <button type="button" class="btn btn-danger" data-id="${item.ID}">Xóa</button>
+                            </td>                           
+
                         </tr>
                     `;
                     tableBody.append(row);
@@ -40,17 +49,25 @@
     fetchData();
 
     const addNewForm = $("#addNewForm");
+    CKEDITOR.replace("name"); // Khởi tạo CKEditor
+
 
     addNewForm.on("submit", function (event) {
         event.preventDefault(); // Ngừng hành vi gửi form mặc định
 
+        const selectedCorrectAnswer = $('input[name="correctAnswer"]:checked').val();
+        if (!selectedCorrectAnswer) {
+            alert("Vui lòng chọn đáp án đúng!");
+            return;
+        }
+
         const newQuestionLevel = {
-            Name: $("#name").val().trim(),
+            Name: CKEDITOR.instances.name.getData().trim(),
             Answer1: $("#answer1").val().trim(),
             Answer2: $("#answer2").val().trim(),
             Answer3: $("#answer3").val().trim(),
             Answer4: $("#answer4").val().trim(),
-            Correct: $("#correct").val().trim()
+            Correct: selectedCorrectAnswer
         };
 
         if (!newQuestionLevel.Name) {
@@ -74,6 +91,7 @@
                 modal.hide(); // Đóng modal
 
                 addNewForm[0].reset(); // Reset form
+                CKEDITOR.instances.name.setData(""); // Xóa nội dung CKEditor
             },
             error: function (xhr, status, error) {
                 console.error("Lỗi khi thêm mới:", status, error, xhr.responseText);

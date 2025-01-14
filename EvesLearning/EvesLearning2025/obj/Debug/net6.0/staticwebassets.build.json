@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ipKss+ZgY9G9s+xYioj1WTQK7y2mp1ZsvWSnfPxrLCc=",
+  "Hash": "o9uIjpqkdXSO1uSQmbTkYBYIQTfWFUT43GdqJRJKpp0=",
   "Source": "EvesLearning2025",
   "BasePath": "_content/EvesLearning2025",
   "Mode": "Default",
@@ -95,6 +95,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\question.css"
+    },
+    {
+      "Identity": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\css\\questionadmin.css",
+      "SourceId": "EvesLearning2025",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\",
+      "BasePath": "_content/EvesLearning2025",
+      "RelativePath": "css/questionadmin.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\questionadmin.css"
     },
     {
       "Identity": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\css\\site.css",
