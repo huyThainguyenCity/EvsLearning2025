@@ -934,8 +934,6 @@ namespace BusinessObject.Models
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.Content).HasColumnType("ntext");
-
                 entity.Property(e => e.CreatedBy).HasMaxLength(500);
 
                 entity.Property(e => e.DateCreated)

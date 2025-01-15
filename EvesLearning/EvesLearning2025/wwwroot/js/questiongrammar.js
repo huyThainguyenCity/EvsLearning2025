@@ -51,13 +51,14 @@
         const newQuestionLevel = {
             Name: $("#name").val().trim(),
             ShortContent: $("#shortContent").val().trim(),
-            Content: $("#content").val().trim()
+            Content: $("#contents").val().trim()
         };
 
         if (!newQuestionLevel.Name) {
             alert("Tên không được để trống!");
             return;
         }
+        
         console.log(newQuestionLevel);
 
         $.ajax({

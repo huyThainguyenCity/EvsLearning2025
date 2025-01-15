@@ -234,5 +234,20 @@ namespace EvesLearning.Controllers
                 return StatusCode(500, new { Error = ex.Message });
             }
         }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateQuestion([FromBody] UpdateQuestionDTO questionDto)
+        {
+            try
+            {
+                await _questionRepositoy.UpdateQuestionAsync(questionDto);
+
+                return Ok(new { Message = "Question updated successfully!" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
     }
 }

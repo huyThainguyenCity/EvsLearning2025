@@ -2,7 +2,7 @@
 {
     public class QuestionDTO
     {
-        public string? ID { get; set; }
+        public int? Id { get; set; }
         public string? Name { get; set; }
         public string? Answer1 { get; set; }
         public string? Answer2 { get; set; }
@@ -15,6 +15,11 @@
     {
         public string? CreatedBy { get; set; }
         public DateTime? DateCreated { get; set; }
+    }
+    public class UpdateQuestionDTO : QuestionDTO
+    {
+        public string? ModifyBy { get; set; }
+        public DateTime? DateModify { get; set; }
     }
     public class UserAnswerDTO
     {

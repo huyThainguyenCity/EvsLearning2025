@@ -329,6 +329,27 @@ namespace EvesLearning.Repository
 
             await _context.SaveChangesAsync();
         }
+        public async Task UpdateQuestionAsync(UpdateQuestionDTO updateQuestion)
+        {
+            if (updateQuestion == null)
+            {
+                throw new ArgumentNullException(nameof(updateQuestion), "Question cannot be null");
+            }
+
+            var existingQuestion = await _context.Questions.FirstOrDefaultAsync(q => q.Id == updateQuestion.Id)
+                           ?? throw new KeyNotFoundException($"ID {updateQuestion.Id} not found.");
+
+            existingQuestion.Name = updateQuestion.Name;
+            existingQuestion.Answer1 = updateQuestion.Answer1;
+            existingQuestion.Answer2 = updateQuestion.Answer2;
+            existingQuestion.Answer3 = updateQuestion.Answer3;
+            existingQuestion.Answer4 = updateQuestion.Answer4;
+            existingQuestion.Correct = updateQuestion.Correct;
+            existingQuestion.ModifyBy = updateQuestion.ModifyBy;
+            existingQuestion.DateModify = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+        }
 
         public async Task<IEnumerable<AnswerResultDTO>> CheckAnswersAsync(List<UserAnswerDTO> userAnswers)
         {
@@ -372,7 +393,5 @@ namespace EvesLearning.Repository
 
             return results;
         }
-
-		
-	}
+    }
 }

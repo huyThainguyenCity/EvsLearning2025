@@ -94,5 +94,59 @@
     </div>
 </div>
 
+<div class="modal fade" id="updateLevel" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateModalLabel">Cập nhật</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Form Cập nhật -->
+                <form id="updateForm">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="form-label">Name</label>
+                            <textarea id="updateName"></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Answer 1</label>
+                                <div class="d-flex align-items-center">
+                                    <input type="text" class="form-control" id="updateAnswer1" name="updateAnswer1" required>
+                                    <input type="radio" class="form-check-input ms-2" name="updateCorrectAnswer" value="1">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Answer 2</label>
+                                <div class="d-flex align-items-center">
+                                    <input type="text" class="form-control" id="updateAnswer2" name="updateAnswer2" required>
+                                    <input type="radio" class="form-check-input ms-2" name="updateCorrectAnswer" value="2">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Answer 3</label>
+                                <div class="d-flex align-items-center">
+                                    <input type="text" class="form-control" id="updateAnswer3" name="updateAnswer3" required>
+                                    <input type="radio" class="form-check-input ms-2" name="updateCorrectAnswer" value="3">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Answer 4</label>
+                                <div class="d-flex align-items-center">
+                                    <input type="text" class="form-control" id="updateAnswer4" name="updateAnswer4" required>
+                                    <input type="radio" class="form-check-input ms-2" name="updateCorrectAnswer" value="4">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
