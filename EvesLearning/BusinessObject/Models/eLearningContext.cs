@@ -850,6 +850,8 @@ namespace BusinessObject.Models
 
                 entity.Property(e => e.AnswerName).HasColumnType("ntext");
 
+                entity.Property(e => e.Correct).HasMaxLength(50);
+
                 entity.Property(e => e.CreatedBy).HasMaxLength(500);
 
                 entity.Property(e => e.DateCreated)

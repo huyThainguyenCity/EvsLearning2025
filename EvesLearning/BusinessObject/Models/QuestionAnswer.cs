@@ -8,7 +8,7 @@ namespace BusinessObject.Models
         public int Id { get; set; }
         public int? QuestionId { get; set; }
         public string? AnswerName { get; set; }
-        public int? Correct { get; set; }
+        public string? Correct { get; set; }
         public int? Status { get; set; }
         /// <summary>
         /// 1: Kanji, 2:Điền từ, 3:Nghe hiểu,4: Ngữ pháp, 5:Đọc hiểu (japanese) &lt;=&gt;English

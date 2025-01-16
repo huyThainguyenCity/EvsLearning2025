@@ -235,6 +235,19 @@ namespace EvesLearning.Repository
             _context.Questions.Add(question);
 
             await _context.SaveChangesAsync();
+
+            var questionAnswer = new QuestionAnswer
+            {
+                QuestionId = question.Id,
+                AnswerName = createQuestion.Name,
+                Correct = createQuestion.Correct,
+                CreatedBy = createQuestion.CreatedBy,
+                DateCreated = createQuestion.DateCreated ?? DateTime.Now
+            };
+
+            _context.QuestionAnswers.Add(questionAnswer);
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task UpdateQuestionGrammarAsync(UpdateQuestionGrammarDTO updateQuestionGrammar)
@@ -349,6 +362,21 @@ namespace EvesLearning.Repository
             existingQuestion.DateModify = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
+
+            var existingAnswers = await _context.QuestionAnswers.Where(qa => qa.QuestionId == existingQuestion.Id).ToListAsync();
+
+            foreach (var answer in existingAnswers)
+            {
+                if (answer != null)
+                {
+                    answer.AnswerName = updateQuestion.Name; 
+                    answer.Correct = updateQuestion.Correct; 
+                    answer.ModifyBy = updateQuestion.ModifyBy;
+                    answer.DateCreated = DateTime.UtcNow;
+                }
+            }
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<AnswerResultDTO>> CheckAnswersAsync(List<UserAnswerDTO> userAnswers)
@@ -392,6 +420,29 @@ namespace EvesLearning.Repository
             });
 
             return results;
+        }
+
+        public async Task<dynamic> GetQuestionByIdAsync(int questionId)
+        {
+            try
+            {
+                var connectionString = _context.Database.GetDbConnection().ConnectionString;
+
+                using var connection = new SqlConnection(connectionString);
+                await connection.OpenAsync();
+
+                var result = await connection.QueryFirstOrDefaultAsync(
+                    "EL_GetDetailQuestion",
+                    new { id = questionId },
+                    commandType: CommandType.StoredProcedure
+                );
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error calling stored procedure: {ex.Message}");
+            }
         }
     }
 }
