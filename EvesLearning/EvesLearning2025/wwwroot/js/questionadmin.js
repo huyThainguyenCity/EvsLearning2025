@@ -30,8 +30,8 @@
                             <td>${getValue(item.DateCreated)}</td>
                             <td>${getValue(item.DateModify)}</td>    
                             <td>
-                                <button type="button" class="btn btn-primary" data-id="${item.ID}">Cập nhật</button>
-                                <button type="button" class="btn btn-danger" data-id="${item.ID}">Xóa</button>
+                                <button type="button" class="btn btn-primary btn-update" data-id="${item.ID}">Cập nhật</button>
+                                <button type="button" class="btn btn-danger btn-delete" data-id="${item.ID}">Xóa</button>
                             </td>                           
 
                         </tr>
@@ -99,4 +99,82 @@
             }
         });
     });
+
+    const updateModal = new bootstrap.Modal($("#updateLevel")); // Modal "Cập nhật"
+    let ckeditorInstance; // Biến để lưu CKEditor instance
+
+    // Xử lý khi nhấn nút "Cập nhật"
+    $("table").on("click", ".btn-update", function () {
+        const questionId = $(this).data("id");
+
+        $.ajax({
+            url: `https://localhost:7118/api/Question/${questionId}`,
+            type: "GET",
+            contentType: "application/json",
+            success: function (data) {
+                console.log("Dữ liệu câu hỏi:", data);
+
+                $("#updateName").val(data.Name || "");
+                $("#updateAnswer1").val(data.Answer1 || "");
+                $("#updateAnswer2").val(data.Answer2 || "");
+                $("#updateAnswer3").val(data.Answer3 || "");
+                $("#updateAnswer4").val(data.Answer4 || "");
+
+                $(`input[name="updateCorrectAnswer"][value="${data.Correct}"]`).prop("checked", true);
+
+                $("#updateForm").data("id", questionId);
+
+                if (ckeditorInstance) {
+                    ckeditorInstance.destroy(true); 
+                }
+                ckeditorInstance = CKEDITOR.replace("updateName"); 
+
+                updateModal.show();
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi lấy dữ liệu câu hỏi:", error);
+                alert("Có lỗi xảy ra khi lấy dữ liệu câu hỏi.");
+            }
+        });
+    });
+
+    // Xử lý khi submit form "Cập nhật"
+    $("#updateForm").on("submit", function (event) {
+        event.preventDefault();
+
+        const questionId = $(this).data("id");
+
+        const selectedCorrectAnswer = $('input[name="updateCorrectAnswer"]:checked').val();
+        if (!selectedCorrectAnswer) {
+            alert("Vui lòng chọn đáp án đúng!");
+            return;
+        }
+
+        const updatedQuestion = {
+            ID: questionId, 
+            Name: CKEDITOR.instances.updateName.getData().trim(), 
+            Answer1: $("#updateAnswer1").val().trim(),
+            Answer2: $("#updateAnswer2").val().trim(),
+            Answer3: $("#updateAnswer3").val().trim(),
+            Answer4: $("#updateAnswer4").val().trim(),
+            Correct: selectedCorrectAnswer
+        };
+
+        $.ajax({
+            url: `https://localhost:7118/api/Question`, 
+            type: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify(updatedQuestion),
+            success: function (data) {
+                alert("Cập nhật thành công!");
+                updateModal.hide(); 
+                fetchData();
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi cập nhật dữ liệu:", error);
+                alert("Có lỗi xảy ra khi cập nhật dữ liệu.");
+            }
+        });
+    });
+
 });

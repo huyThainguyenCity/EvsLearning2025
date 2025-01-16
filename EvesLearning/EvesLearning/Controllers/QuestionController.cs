@@ -249,5 +249,18 @@ namespace EvesLearning.Controllers
                 return StatusCode(500, new { Error = ex.Message });
             }
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetQuestionById(int id)
+        {
+            var questions = await _questionRepositoy.GetQuestionByIdAsync(id);
+
+            if (questions == null)
+            {
+                return NotFound("Question not found");
+            }
+
+            return Ok(questions);
+        }
     }
 }
