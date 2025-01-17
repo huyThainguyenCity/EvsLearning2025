@@ -262,5 +262,57 @@ namespace EvesLearning.Controllers
 
             return Ok(questions);
         }
+
+        [HttpGet("QuestionType/{id}")]
+        public async Task<IActionResult> GetQuestionTypeById(int id)
+        {
+            var questions = await _questionRepositoy.GetQuestionTypeByIdAsync(id);
+
+            if (questions == null)
+            {
+                return NotFound("Question type not found");
+            }
+
+            return Ok(questions);
+        }
+
+        [HttpGet("QuestionGroup/{id}")]
+        public async Task<IActionResult> GetQuestionGroupById(int id)
+        {
+            var questions = await _questionRepositoy.GetQuestionGroupByIdAsync(id);
+
+            if (questions == null)
+            {
+                return NotFound("Question group not found");
+            }
+
+            return Ok(questions);
+        }
+
+        [HttpGet("QuestionGrammar/{id}")]
+        public async Task<IActionResult> GetQuestionGrammarById(int id)
+        {
+            var questions = await _questionRepositoy.GetQuestionGrammarByIdAsync(id);
+
+            if (questions == null)
+            {
+                return NotFound("Question grammar not found");
+            }
+
+            return Ok(questions);
+        }
+
+        [HttpGet("QuestionLevel/{id}")]
+        public async Task<IActionResult> GetQuestionLevelById(int id)
+        {
+            var questions = await _questionRepositoy.GetQuestionLevelByIdAsync(id);
+
+            if (questions == null)
+            {
+                return NotFound("Question level not found");
+            }
+
+            return Ok(questions);
+        }
     }
 }
