@@ -21,6 +21,10 @@ namespace EvesLearning.IRepository
         Task UpdateQuestionAsync(UpdateQuestionDTO updateQuestion);
         Task<IEnumerable<dynamic>> GetAllQuestion();
         Task<dynamic> GetQuestionByIdAsync(int questionId);
+        Task<dynamic> GetQuestionLevelByIdAsync(int questionLevelId);
+        Task<dynamic> GetQuestionTypeByIdAsync(int questionTypeId);
+        Task<dynamic> GetQuestionGroupByIdAsync(int questionGroupId);
+        Task<dynamic> GetQuestionGrammarByIdAsync(int questionGrammarId);
         Task<IEnumerable<AnswerResultDTO>> CheckAnswersAsync(List<UserAnswerDTO> userAnswers);
 
     }

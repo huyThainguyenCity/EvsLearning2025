@@ -26,8 +26,8 @@
                             <td>${getValue(item.DateModify)}</td>
                             <td>${getValue(item.Language)}</td>
                             <td>
-                                <button type="button" class="btn btn-primary" data-id="${item.ID}">Cập nhật</button>
-                                <button type="button" class="btn btn-danger" data-id="${item.ID}">Xóa</button>
+                                <button type="button" class="btn btn-primary btn-update" data-id="${item.ID}">Cập nhật</button>
+                                <button type="button" class="btn btn-danger btn-delete" data-id="${item.ID}">Xóa</button>
                             </td> 
                         </tr>
                     `;
@@ -77,6 +77,62 @@
             error: function (xhr, status, error) {
                 console.error("Error:", error);
                 alert("Có lỗi xảy ra khi thêm mới.");
+            }
+        });
+    });
+
+    const updateModal = new bootstrap.Modal($("#updateLevel")); // Modal "Cập nhật"
+
+    // Xử lý khi nhấn nút "Cập nhật"
+    $("table").on("click", ".btn-update", function () {
+        const questionId = $(this).data("id");
+
+        $.ajax({
+            url: `https://localhost:7118/api/Question/QuestionLevel/${questionId}`,
+            type: "GET",
+            contentType: "application/json",
+            success: function (data) {
+                console.log("Dữ liệu câu hỏi:", data);
+
+                $("#updateName").val(data.Name || "");
+
+                $("#updateForm").data("id", questionId);
+
+                updateModal.show();
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi lấy dữ liệu câu hỏi:", error);
+                alert("Có lỗi xảy ra khi lấy dữ liệu câu hỏi.");
+            }
+        });
+    });
+
+    // Xử lý khi submit form "Cập nhật"
+    $("#updateForm").on("submit", function (event) {
+        event.preventDefault();
+
+        const questionId = $(this).data("id");
+
+
+
+        const updatedQuestion = {
+            ID: questionId,
+            Name: $("#updateName").val().trim()
+        };
+
+        $.ajax({
+            url: `https://localhost:7118/api/Question/QuestionLevel`,
+            type: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify(updatedQuestion),
+            success: function (data) {
+                alert("Cập nhật thành công!");
+                updateModal.hide();
+                fetchData();
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi cập nhật dữ liệu:", error);
+                alert("Có lỗi xảy ra khi cập nhật dữ liệu.");
             }
         });
     });

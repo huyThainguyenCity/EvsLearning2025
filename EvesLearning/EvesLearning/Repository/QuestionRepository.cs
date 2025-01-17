@@ -444,5 +444,97 @@ namespace EvesLearning.Repository
                 throw new Exception($"Error calling stored procedure: {ex.Message}");
             }
         }
+
+        public async Task<dynamic> GetQuestionLevelByIdAsync(int questionLevelId)
+        {
+            try
+            {
+                var connectionString = _context.Database.GetDbConnection().ConnectionString;
+
+                using var connection = new SqlConnection(connectionString);
+                await connection.OpenAsync();
+
+                var result = await connection.QueryFirstOrDefaultAsync(
+                    "EL_GetDetailQuestionLevel",
+                    new { id = questionLevelId },
+                    commandType: CommandType.StoredProcedure
+                );
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error calling stored procedure: {ex.Message}");
+            }
+        }
+
+        public async Task<dynamic> GetQuestionTypeByIdAsync(int questionTypeId)
+        {
+            try
+            {
+                var connectionString = _context.Database.GetDbConnection().ConnectionString;
+
+                using var connection = new SqlConnection(connectionString);
+                await connection.OpenAsync();
+
+                var result = await connection.QueryFirstOrDefaultAsync(
+                    "EL_GetDetailQuestionType",
+                    new { id = questionTypeId },
+                    commandType: CommandType.StoredProcedure
+                );
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error calling stored procedure: {ex.Message}");
+            }
+        }
+
+        public async Task<dynamic> GetQuestionGroupByIdAsync(int questionGroupId)
+        {
+            try
+            {
+                var connectionString = _context.Database.GetDbConnection().ConnectionString;
+
+                using var connection = new SqlConnection(connectionString);
+                await connection.OpenAsync();
+
+                var result = await connection.QueryFirstOrDefaultAsync(
+                    "EL_GetDetailQuestionGroups",
+                    new { id = questionGroupId },
+                    commandType: CommandType.StoredProcedure
+                );
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error calling stored procedure: {ex.Message}");
+            }
+        }
+
+        public async Task<dynamic> GetQuestionGrammarByIdAsync(int questionGrammarId)
+        {
+            try
+            {
+                var connectionString = _context.Database.GetDbConnection().ConnectionString;
+
+                using var connection = new SqlConnection(connectionString);
+                await connection.OpenAsync();
+
+                var result = await connection.QueryFirstOrDefaultAsync(
+                    "EL_GetDetailQuestionGrammar",
+                    new { id = questionGrammarId },
+                    commandType: CommandType.StoredProcedure
+                );
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error calling stored procedure: {ex.Message}");
+            }
+        }
     }
 }
