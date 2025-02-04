@@ -9,7 +9,9 @@ namespace EvesLearning.IRepository
 		Task<IEnumerable<dynamic>> GetAllQuestionType();
         Task<IEnumerable<dynamic>> GetAllQuestionGroup();
 		Task<IEnumerable<dynamic>> GetAllQuestionGrammar();
-		Task AddQuestionLevelAsync(CreateQuestionLevelDTO createQuestionLevel);
+        Task<IEnumerable<dynamic>> GetAllQuestion();
+        Task<IEnumerable<dynamic>> GetAllQuestionCategories();
+        Task AddQuestionLevelAsync(CreateQuestionLevelDTO createQuestionLevel);
         Task UpdateQuestionLevelAsync(UpdateQuestionLevelDTO updateQuestionLevel);
         Task AddQuestionTypeAsync(CreateQuestionTypeDTO questionType);
         Task UpdateQuestionTypeAsync(UpdateQuestionTypeDTO updateQuestionType);
@@ -19,7 +21,7 @@ namespace EvesLearning.IRepository
         Task UpdateQuestionGrammarAsync(UpdateQuestionGrammarDTO updateQuestionGrammar);
         Task AddQuestionAsync(CreateQuestionDTO createQuestion);
         Task UpdateQuestionAsync(UpdateQuestionDTO updateQuestion);
-        Task<IEnumerable<dynamic>> GetAllQuestion();
+        Task AddQuestionCategoriesAsync(CreateQuestionCategoriesDTO CreateQuestionCategories);
         Task<dynamic> GetQuestionByIdAsync(int questionId);
         Task<dynamic> GetQuestionLevelByIdAsync(int questionLevelId);
         Task<dynamic> GetQuestionTypeByIdAsync(int questionTypeId);

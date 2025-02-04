@@ -9,6 +9,8 @@
         public string? Answer3 { get; set; }
         public string? Answer4 { get; set; }
         public string? Correct { get; set; }
+        public int? QuestionCategoryID { get; set; }
+        public int? QuestionLevelID { get; set; }
     }
 
     public class CreateQuestionDTO : QuestionDTO
