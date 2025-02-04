@@ -61,6 +61,10 @@
       "PackagePath": "staticwebassets\\js\\questionadmin.js"
     },
     {
+      "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\questioncategories.js",
+      "PackagePath": "staticwebassets\\js\\questioncategories.js"
+    },
+    {
       "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\questiongrammar.js",
       "PackagePath": "staticwebassets\\js\\questiongrammar.js"
     },

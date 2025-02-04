@@ -100,6 +100,20 @@ namespace EvesLearning.Controllers
             }
         }
 
+        [HttpPost("GetAllQuestionCategories")]
+        public async Task<IActionResult> GetAllQuestionCategories()
+        {
+            try
+            {
+                var result = await _questionRepositoy.GetAllQuestionCategories();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Có lỗi xảy ra: {ex.Message}");
+            }
+        }
+
         [HttpPost("QuestionLevel")]
         public async Task<IActionResult> AddQuestionLevel([FromBody] CreateQuestionLevelDTO questionLevelDto)
         {         
@@ -167,7 +181,22 @@ namespace EvesLearning.Controllers
             {
                 await _questionRepositoy.AddQuestionAsync(questionDto);
 
-                return Ok(new { Message = "Question grammar added successfully!" });
+                return Ok(new { Message = "Question added successfully!" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
+
+        [HttpPost("QuestionCategories")]
+        public async Task<IActionResult> AddQuestionCategories([FromBody] CreateQuestionCategoriesDTO questionCategoriesDto)
+        {
+            try
+            {
+                await _questionRepositoy.AddQuestionCategoriesAsync(questionCategoriesDto);
+
+                return Ok(new { Message = "Question categories added successfully!" });
             }
             catch (Exception ex)
             {

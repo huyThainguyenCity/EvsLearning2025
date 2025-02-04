@@ -228,6 +228,8 @@ namespace EvesLearning.Repository
                 Answer3 = createQuestion.Answer3,
                 Answer4 = createQuestion.Answer4,
                 Correct = createQuestion.Correct,
+                QuestionCategoryId = createQuestion.QuestionCategoryID,
+                QuestionLevelId = createQuestion.QuestionLevelID,
                 CreatedBy = createQuestion.CreatedBy,
                 DateCreated = createQuestion.DateCreated ?? DateTime.Now
             };
@@ -526,6 +528,48 @@ namespace EvesLearning.Repository
                 var result = await connection.QueryFirstOrDefaultAsync(
                     "EL_GetDetailQuestionGrammar",
                     new { id = questionGrammarId },
+                    commandType: CommandType.StoredProcedure
+                );
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error calling stored procedure: {ex.Message}");
+            }
+        }
+
+        public async Task AddQuestionCategoriesAsync(CreateQuestionCategoriesDTO CreateQuestionCategories)
+        {
+            if (CreateQuestionCategories == null)
+                throw new ArgumentNullException(nameof(CreateQuestionCategories));
+
+            var questionCategories = new QuestionCategory
+            {
+                Name = CreateQuestionCategories.Name,
+                ShortContent = CreateQuestionCategories.ShortContent,
+                Contents = CreateQuestionCategories.Contents,
+                Contents2 = CreateQuestionCategories.Contents2,              
+                CreatedBy = CreateQuestionCategories.CreatedBy,
+                DateCreated = CreateQuestionCategories.DateCreated ?? DateTime.Now
+            };
+
+            _context.QuestionCategories.Add(questionCategories);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<dynamic>> GetAllQuestionCategories()
+        {
+            try
+            {
+                var connectionString = _context.Database.GetDbConnection().ConnectionString;
+
+                using var connection = new SqlConnection(connectionString);
+                await connection.OpenAsync();
+
+                var result = await connection.QueryAsync(
+                    "EL_GetAllQuestionCategories",
                     commandType: CommandType.StoredProcedure
                 );
 

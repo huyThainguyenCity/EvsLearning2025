@@ -33,5 +33,10 @@ namespace EvesLearning2025.Controllers
 			ViewBag.Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 			return View();
 		}
-	}
+        public IActionResult QuestionCategoriesAdmin()
+        {
+            ViewBag.Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+            return View();
+        }
+    }
 }

@@ -48,6 +48,65 @@
 
     fetchData();
 
+    function handleAddNewClick() {
+        console.log("handleAddNewClick() đã được gọi!"); // Debug kiểm tra nút có hoạt động không
+        fetchCategories();  // Gọi API danh mục
+        fetchLevels();      // Gọi API mức độ
+       
+    }
+
+    $("button[data-bs-toggle='modal']").on("click", function () {
+        handleAddNewClick();  // Khi bấm nút "Thêm mới", gọi hàm này
+    });
+
+    // Hàm gọi API danh mục
+    function fetchCategories(callback) {
+        console.log("testcategory");
+        $.ajax({
+            url: "https://localhost:7118/api/Question/GetAllQuestionCategories",
+            type: "POST",
+            contentType: "application/json",
+            success: function (categories) {
+                const categorySelect = $("#category");
+                categorySelect.empty().append('<option value="">-- Chọn thể loại --</option>');
+
+                categories.forEach(cat => {
+                    categorySelect.append(`<option value="${cat.ID}">${cat.Name}</option>`);
+                });   
+                callback(); // Gọi callback khi fetch xong
+
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi lấy thể loại:", status, error, xhr.responseText);
+                alert("Có lỗi khi tải thể loại, vui lòng thử lại!");
+            }
+        });
+    }
+    
+    // Hàm gọi API mức độ
+    function fetchLevels(callback) {
+        console.log("testlevel");
+        $.ajax({
+            url: "https://localhost:7118/api/Question/GetAllQuestionLevel",
+            type: "POST",
+            contentType: "application/json",
+            success: function (levels) {
+                const levelSelect = $("#level");
+                levelSelect.empty().append('<option value="">-- Chọn mức độ --</option>');
+
+                levels.forEach(level => {
+                    levelSelect.append(`<option value="${level.ID}">${level.Name}</option>`);
+                }); 
+                callback(); // Gọi callback khi fetch xong
+
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi lấy mức độ:", status, error, xhr.responseText);
+                alert("Có lỗi khi tải mức độ, vui lòng thử lại!");
+            }
+        });
+    }
+
     const addNewForm = $("#addNewForm");
     CKEDITOR.replace("name"); // Khởi tạo CKEditor
 
@@ -67,6 +126,8 @@
             Answer2: $("#answer2").val().trim(),
             Answer3: $("#answer3").val().trim(),
             Answer4: $("#answer4").val().trim(),
+            QuestionCategoryID: $("#category").val(),  // Lấy giá trị ID của danh mục đã chọn
+            QuestionLevelID: $("#level").val(),       // Lấy giá trị ID của mức độ đã chọn
             Correct: selectedCorrectAnswer
         };
 
@@ -106,35 +167,42 @@
     // Xử lý khi nhấn nút "Cập nhật"
     $("table").on("click", ".btn-update", function () {
         const questionId = $(this).data("id");
+        //fetchCategories();
+        //fetchLevels();
+        fetchCategories(function () {
+            fetchLevels(function () {
+                $.ajax({
+                    url: `https://localhost:7118/api/Question/${questionId}`,
+                    type: "GET",
+                    contentType: "application/json",
+                    success: function (data) {
+                        console.log("Dữ liệu câu hỏi:", data);
 
-        $.ajax({
-            url: `https://localhost:7118/api/Question/${questionId}`,
-            type: "GET",
-            contentType: "application/json",
-            success: function (data) {
-                console.log("Dữ liệu câu hỏi:", data);
+                        $("#updateName").val(data.Name || "");
+                        $("#updateAnswer1").val(data.Answer1 || "");
+                        $("#updateAnswer2").val(data.Answer2 || "");
+                        $("#updateAnswer3").val(data.Answer3 || "");
+                        $("#updateAnswer4").val(data.Answer4 || "");
+                        $("#updateCategory").val(data.QuestionCategoryID || "");
+                        $("#updateLevel").val(data.QuestionLevelID || "");
 
-                $("#updateName").val(data.Name || "");
-                $("#updateAnswer1").val(data.Answer1 || "");
-                $("#updateAnswer2").val(data.Answer2 || "");
-                $("#updateAnswer3").val(data.Answer3 || "");
-                $("#updateAnswer4").val(data.Answer4 || "");
+                        $(`input[name="updateCorrectAnswer"][value="${data.Correct}"]`).prop("checked", true);
 
-                $(`input[name="updateCorrectAnswer"][value="${data.Correct}"]`).prop("checked", true);
+                        $("#updateForm").data("id", questionId);
 
-                $("#updateForm").data("id", questionId);
+                        if (ckeditorInstance) {
+                            ckeditorInstance.destroy(true);
+                        }
+                        ckeditorInstance = CKEDITOR.replace("updateName");
 
-                if (ckeditorInstance) {
-                    ckeditorInstance.destroy(true); 
-                }
-                ckeditorInstance = CKEDITOR.replace("updateName"); 
-
-                updateModal.show();
-            },
-            error: function (xhr, status, error) {
-                console.error("Lỗi khi lấy dữ liệu câu hỏi:", error);
-                alert("Có lỗi xảy ra khi lấy dữ liệu câu hỏi.");
-            }
+                        updateModal.show();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Lỗi khi lấy dữ liệu câu hỏi:", error);
+                        alert("Có lỗi xảy ra khi lấy dữ liệu câu hỏi.");
+                    }
+                });
+            });
         });
     });
 
@@ -157,7 +225,9 @@
             Answer2: $("#updateAnswer2").val().trim(),
             Answer3: $("#updateAnswer3").val().trim(),
             Answer4: $("#updateAnswer4").val().trim(),
-            Correct: selectedCorrectAnswer
+            Correct: selectedCorrectAnswer,
+            QuestionCategoryID: $("#category").val(),
+            QuestionLevelID: $("#level").val()
         };
 
         $.ajax({
