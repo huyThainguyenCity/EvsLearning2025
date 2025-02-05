@@ -16,6 +16,13 @@ namespace BusinessObject.Models
         {
         }
 
+        public virtual DbSet<Exam> Exams { get; set; } = null!;
+        public virtual DbSet<ExamCategory> ExamCategories { get; set; } = null!;
+        public virtual DbSet<ExamLevel> ExamLevels { get; set; } = null!;
+        public virtual DbSet<ExamLog> ExamLogs { get; set; } = null!;
+        public virtual DbSet<ExamResult> ExamResults { get; set; } = null!;
+        public virtual DbSet<ExamResultPass> ExamResultPasses { get; set; } = null!;
+        public virtual DbSet<ExamType> ExamTypes { get; set; } = null!;
         public virtual DbSet<McaccountDocument> McaccountDocuments { get; set; } = null!;
         public virtual DbSet<McaccountTypeDocument> McaccountTypeDocuments { get; set; } = null!;
         public virtual DbSet<Mcdocument> Mcdocuments { get; set; } = null!;
@@ -51,6 +58,357 @@ namespace BusinessObject.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Exam>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Approve).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Audio).HasMaxLength(500);
+
+                entity.Property(e => e.AudioPath).HasMaxLength(500);
+
+                entity.Property(e => e.BarcodeDate).HasColumnType("datetime");
+
+                entity.Property(e => e.BarcodeNew).HasMaxLength(500);
+
+                entity.Property(e => e.BarcodeOld).HasMaxLength(500);
+
+                entity.Property(e => e.Content).HasColumnType("ntext");
+
+                entity.Property(e => e.CreatedBy).HasMaxLength(500);
+
+                entity.Property(e => e.DateCreated)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.DateModify).HasColumnType("datetime");
+
+                entity.Property(e => e.Deleted).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Descriptions).HasMaxLength(4000);
+
+                entity.Property(e => e.ExamCategoryId)
+                    .HasColumnName("ExamCategoryID")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.ExamLevelId)
+                    .HasColumnName("ExamLevelID")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.FullTime).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.ImageName).HasMaxLength(200);
+
+                entity.Property(e => e.ImagePath).HasMaxLength(500);
+
+                entity.Property(e => e.Iplogin)
+                    .HasMaxLength(50)
+                    .HasColumnName("IPLogin");
+
+                entity.Property(e => e.LastLogin).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifyBy).HasMaxLength(500);
+
+                entity.Property(e => e.MyProgramId)
+                    .HasColumnName("MyProgramID")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Name).HasMaxLength(500);
+
+                entity.Property(e => e.Note).HasColumnType("ntext");
+
+                entity.Property(e => e.PageDescription).HasMaxLength(2000);
+
+                entity.Property(e => e.PageKeywords).HasMaxLength(2000);
+
+                entity.Property(e => e.PageTitle).HasMaxLength(2000);
+
+                entity.Property(e => e.ProgramId)
+                    .HasColumnName("ProgramID")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Progress).HasComment("Đơn vị");
+
+                entity.Property(e => e.PromotionalId)
+                    .HasMaxLength(50)
+                    .HasColumnName("PromotionalID");
+
+                entity.Property(e => e.QuestionCurrent)
+                    .HasDefaultValueSql("((0))")
+                    .HasComment("Tồn định mức");
+
+                entity.Property(e => e.QuestionListId)
+                    .HasMaxLength(4000)
+                    .HasColumnName("QuestionListID");
+
+                entity.Property(e => e.ShortContent).HasColumnType("ntext");
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.Total).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Type).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Video).HasMaxLength(500);
+
+                entity.Property(e => e.VideoPath).HasMaxLength(500);
+
+                entity.Property(e => e.Views).HasDefaultValueSql("((0))");
+            });
+
+            modelBuilder.Entity<ExamCategory>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Alias).HasMaxLength(500);
+
+                entity.Property(e => e.CategoryName).HasMaxLength(500);
+
+                entity.Property(e => e.CreatedBy).HasMaxLength(500);
+
+                entity.Property(e => e.DateCreated)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.DateModify).HasColumnType("datetime");
+
+                entity.Property(e => e.Deleted).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Description).HasMaxLength(4000);
+
+                entity.Property(e => e.ExamLevelId).HasColumnName("ExamLevelID");
+
+                entity.Property(e => e.Image).HasColumnType("image");
+
+                entity.Property(e => e.Index).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.Language).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.ModifyBy).HasMaxLength(500);
+
+                entity.Property(e => e.Status)
+                    .HasDefaultValueSql("((1))")
+                    .HasComment("Đồ uống, đồ ăn");
+            });
+
+            modelBuilder.Entity<ExamLevel>(entity =>
+            {
+                entity.ToTable("ExamLevel");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.CreatedBy).HasMaxLength(500);
+
+                entity.Property(e => e.DateCreated)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.DateModify).HasColumnType("datetime");
+
+                entity.Property(e => e.Deleted).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.ModifyBy).HasMaxLength(500);
+
+                entity.Property(e => e.Name).HasMaxLength(500);
+            });
+
+            modelBuilder.Entity<ExamLog>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Correct).HasMaxLength(50);
+
+                entity.Property(e => e.DateCreated)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.Deleted).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Description).HasColumnType("ntext");
+
+                entity.Property(e => e.ExamId).HasColumnName("ExamID");
+
+                entity.Property(e => e.Ipaddress)
+                    .HasMaxLength(500)
+                    .HasColumnName("IPAddress");
+
+                entity.Property(e => e.Language).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.LogEvent).HasMaxLength(50);
+
+                entity.Property(e => e.QuestionCategoryId)
+                    .HasColumnName("QuestionCategoryID")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
+
+                entity.Property(e => e.TotalScore)
+                    .HasMaxLength(50)
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.UserChoice).HasMaxLength(50);
+
+                entity.Property(e => e.UserName).HasMaxLength(500);
+            });
+
+            modelBuilder.Entity<ExamResult>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Actions).HasColumnType("ntext");
+
+                entity.Property(e => e.Correct).HasMaxLength(50);
+
+                entity.Property(e => e.CreatedBy).HasMaxLength(500);
+
+                entity.Property(e => e.DateCreated)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.DateModify).HasColumnType("datetime");
+
+                entity.Property(e => e.Deleted).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Description).HasColumnType("ntext");
+
+                entity.Property(e => e.ExamId)
+                    .HasColumnName("ExamID")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Ipaddress)
+                    .HasMaxLength(500)
+                    .HasColumnName("IPAddress");
+
+                entity.Property(e => e.Language).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.LogEvent).HasMaxLength(50);
+
+                entity.Property(e => e.ModifyBy).HasMaxLength(500);
+
+                entity.Property(e => e.Percents).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.QuestionCategoryId)
+                    .HasColumnName("QuestionCategoryID")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.QuestionId)
+                    .HasColumnName("QuestionID")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Score).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.ScoreInput).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.ScoreOutput).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Total).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.TotalScore).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.UserChoice).HasMaxLength(50);
+
+                entity.Property(e => e.UserId)
+                    .HasColumnName("UserID")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.UserName).HasMaxLength(500);
+            });
+
+            modelBuilder.Entity<ExamResultPass>(entity =>
+            {
+                entity.ToTable("ExamResultPass");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Actions).HasColumnType("ntext");
+
+                entity.Property(e => e.Correct).HasMaxLength(50);
+
+                entity.Property(e => e.CreatedBy).HasMaxLength(500);
+
+                entity.Property(e => e.DateCreated)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.DateModify).HasColumnType("datetime");
+
+                entity.Property(e => e.Deleted).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Description).HasColumnType("ntext");
+
+                entity.Property(e => e.ExamId)
+                    .HasColumnName("ExamID")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Language).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.LogEvent).HasMaxLength(50);
+
+                entity.Property(e => e.ModifyBy).HasMaxLength(500);
+
+                entity.Property(e => e.Percents).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.QuestionCategoryId)
+                    .HasColumnName("QuestionCategoryID")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.QuestionId)
+                    .HasColumnName("QuestionID")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Score).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.ScoreInput).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.ScoreOutput).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Total).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.TotalScore).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.UserChoice).HasMaxLength(50);
+
+                entity.Property(e => e.UserId)
+                    .HasColumnName("UserID")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.UserName).HasMaxLength(500);
+            });
+
+            modelBuilder.Entity<ExamType>(entity =>
+            {
+                entity.ToTable("ExamType");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.CreatedBy).HasMaxLength(500);
+
+                entity.Property(e => e.DateCreated)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.DateModify).HasColumnType("datetime");
+
+                entity.Property(e => e.Deleted).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Description).HasColumnType("ntext");
+
+                entity.Property(e => e.FullTime).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Language).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.ModifyBy).HasMaxLength(500);
+
+                entity.Property(e => e.Name).HasMaxLength(500);
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
+            });
+
             modelBuilder.Entity<McaccountDocument>(entity =>
             {
                 entity.HasKey(e => e.UserId);

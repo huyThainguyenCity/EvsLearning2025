@@ -360,6 +360,8 @@ namespace EvesLearning.Repository
             existingQuestion.Answer3 = updateQuestion.Answer3;
             existingQuestion.Answer4 = updateQuestion.Answer4;
             existingQuestion.Correct = updateQuestion.Correct;
+            existingQuestion.QuestionCategoryId = updateQuestion.QuestionCategoryID;
+            existingQuestion.QuestionLevelId = updateQuestion.QuestionLevelID;
             existingQuestion.ModifyBy = updateQuestion.ModifyBy;
             existingQuestion.DateModify = DateTime.UtcNow;
 

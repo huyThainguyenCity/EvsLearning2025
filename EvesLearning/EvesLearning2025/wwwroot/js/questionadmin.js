@@ -1,7 +1,9 @@
 ﻿$(document).ready(function () {
+    let apiBaseUrl = "https://localhost:7118";
+
     function fetchData() {
         $.ajax({
-            url: "https://localhost:7118/api/Question/GetAllQuestion",
+            url: `${apiBaseUrl}/api/Question/GetAllQuestion`,
             type: "POST",
             contentType: "application/json",
             success: function (data) {
@@ -60,10 +62,10 @@
     });
 
     // Hàm gọi API danh mục
-    function fetchCategories(callback) {
+    function fetchCategories() {
         console.log("testcategory");
         $.ajax({
-            url: "https://localhost:7118/api/Question/GetAllQuestionCategories",
+            url: `${apiBaseUrl}/api/Question/GetAllQuestionCategories`,
             type: "POST",
             contentType: "application/json",
             success: function (categories) {
@@ -72,9 +74,7 @@
 
                 categories.forEach(cat => {
                     categorySelect.append(`<option value="${cat.ID}">${cat.Name}</option>`);
-                });   
-                callback(); // Gọi callback khi fetch xong
-
+                });
             },
             error: function (xhr, status, error) {
                 console.error("Lỗi khi lấy thể loại:", status, error, xhr.responseText);
@@ -84,10 +84,10 @@
     }
     
     // Hàm gọi API mức độ
-    function fetchLevels(callback) {
+    function fetchLevels() {
         console.log("testlevel");
         $.ajax({
-            url: "https://localhost:7118/api/Question/GetAllQuestionLevel",
+            url: `${apiBaseUrl}/api/Question/GetAllQuestionLevel`,
             type: "POST",
             contentType: "application/json",
             success: function (levels) {
@@ -96,9 +96,59 @@
 
                 levels.forEach(level => {
                     levelSelect.append(`<option value="${level.ID}">${level.Name}</option>`);
-                }); 
-                callback(); // Gọi callback khi fetch xong
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi lấy mức độ:", status, error, xhr.responseText);
+                alert("Có lỗi khi tải mức độ, vui lòng thử lại!");
+            }
+        });
+    }
 
+    // Hàm gọi API danh mục
+    function fetchCategoriesUpdate(selectedId) {
+        console.log("fetchCategoriesUpdate");
+        $.ajax({
+            url: `${apiBaseUrl}/api/Question/GetAllQuestionCategories`,
+            type: "POST",
+            contentType: "application/json",
+            success: function (categories) {
+                const categorySelect = $("#updatecategory");
+                categorySelect.empty().append('<option value="">-- Chọn thể loại --</option>');
+
+                categories.forEach(cat => {
+                    categorySelect.append(`<option value="${cat.ID}">${cat.Name}</option>`);
+                });
+
+                if (selectedId) {
+                    categorySelect.val(selectedId); // Gán giá trị sau khi load xong
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi lấy thể loại:", status, error, xhr.responseText);
+                alert("Có lỗi khi tải thể loại, vui lòng thử lại!");
+            }
+        });
+    }
+
+    // Hàm gọi API mức độ
+    function fetchLevelsUpdate(selectedId) {
+        console.log("fetchLevelsUpdate");
+        $.ajax({
+            url: `${apiBaseUrl}/api/Question/GetAllQuestionLevel`,
+            type: "POST",
+            contentType: "application/json",
+            success: function (levels) {
+                const levelSelect = $("#updatelevel");
+                levelSelect.empty().append('<option value="">-- Chọn mức độ --</option>');
+
+                levels.forEach(level => {
+                    levelSelect.append(`<option value="${level.ID}">${level.Name}</option>`);
+                });
+
+                if (selectedId) {
+                    levelSelect.val(selectedId); // Gán giá trị sau khi load xong
+                }
             },
             error: function (xhr, status, error) {
                 console.error("Lỗi khi lấy mức độ:", status, error, xhr.responseText);
@@ -137,7 +187,7 @@
         }
 
         $.ajax({
-            url: "https://localhost:7118/api/Question",
+            url: `${apiBaseUrl}/api/Question`,
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(newQuestionLevel),
@@ -167,16 +217,17 @@
     // Xử lý khi nhấn nút "Cập nhật"
     $("table").on("click", ".btn-update", function () {
         const questionId = $(this).data("id");
-        //fetchCategories();
-        //fetchLevels();
-        fetchCategories(function () {
-            fetchLevels(function () {
+       
+        
                 $.ajax({
-                    url: `https://localhost:7118/api/Question/${questionId}`,
+                    url: `${apiBaseUrl}/api/Question/${questionId}`,
                     type: "GET",
                     contentType: "application/json",
                     success: function (data) {
                         console.log("Dữ liệu câu hỏi:", data);
+
+                        fetchCategoriesUpdate(data.QuestionCategoryID);
+                        fetchLevelsUpdate(data.QuestionLevelID);
 
                         $("#updateName").val(data.Name || "");
                         $("#updateAnswer1").val(data.Answer1 || "");
@@ -201,9 +252,7 @@
                         console.error("Lỗi khi lấy dữ liệu câu hỏi:", error);
                         alert("Có lỗi xảy ra khi lấy dữ liệu câu hỏi.");
                     }
-                });
-            });
-        });
+                });           
     });
 
     // Xử lý khi submit form "Cập nhật"
@@ -226,12 +275,12 @@
             Answer3: $("#updateAnswer3").val().trim(),
             Answer4: $("#updateAnswer4").val().trim(),
             Correct: selectedCorrectAnswer,
-            QuestionCategoryID: $("#category").val(),
-            QuestionLevelID: $("#level").val()
+            QuestionCategoryID: $("#updatecategory").val(),
+            QuestionLevelID: $("#updatelevel").val()
         };
 
         $.ajax({
-            url: `https://localhost:7118/api/Question`, 
+            url: `${apiBaseUrl}/api/Question`, 
             type: "PUT",
             contentType: "application/json",
             data: JSON.stringify(updatedQuestion),
@@ -246,5 +295,4 @@
             }
         });
     });
-
 });
