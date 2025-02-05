@@ -1,11 +1,12 @@
 {
   "Version": 1,
-  "Hash": "h0WQ5V+fMVcdW9Cr8OLjmx0RLWmlopG73HYqh7qnnyA=",
+  "Hash": "YI8k5xyV7b01HN3XzdE1+Z5CY3eenaD8U2tP5VmmPos=",
   "Source": "EvesLearning",
   "BasePath": "_content/EvesLearning",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": []
+  "Assets": [],
+  "Endpoints": []
 }

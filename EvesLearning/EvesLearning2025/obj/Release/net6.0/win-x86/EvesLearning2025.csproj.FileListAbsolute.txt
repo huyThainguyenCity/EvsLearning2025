@@ -1,0 +1,8 @@
+C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning2025\obj\Release\net6.0\win-x86\EvesLearning2025.csproj.AssemblyReference.cache
+C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning2025\obj\Release\net6.0\win-x86\EvesLearning2025.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning2025\obj\Release\net6.0\win-x86\EvesLearning2025.AssemblyInfoInputs.cache
+C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning2025\obj\Release\net6.0\win-x86\EvesLearning2025.AssemblyInfo.cs
+C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning2025\obj\Release\net6.0\win-x86\EvesLearning2025.csproj.CoreCompileInputs.cache
+C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning2025\obj\Release\net6.0\win-x86\EvesLearning2025.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning2025\obj\Release\net6.0\win-x86\EvesLearning2025.RazorAssemblyInfo.cache
+C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning2025\obj\Release\net6.0\win-x86\EvesLearning2025.RazorAssemblyInfo.cs

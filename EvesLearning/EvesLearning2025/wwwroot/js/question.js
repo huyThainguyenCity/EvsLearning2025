@@ -1,10 +1,10 @@
 ﻿$(document).ready(function () {
-    let questionData = [];
+    let apiBaseUrl = "https://localhost:7118";
 
     // Fetch data từ API
     function fetchData() {
         $.ajax({
-            url: "https://localhost:7118/api/Question/GetAllQuestion",
+            url: `${apiBaseUrl}/api/Question/GetAllQuestion`,
             type: "POST",
             contentType: "application/json",
             success: function (data) {
@@ -133,7 +133,7 @@
 
         // Gửi câu trả lời của người dùng tới API để kiểm tra
         $.ajax({
-            url: "https://localhost:7118/api/Question/GetCheckQuestion",
+            url: `${apiBaseUrl}/api/Question/GetCheckQuestion`,
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(userAnswers), // Chuyển đổi dữ liệu người dùng thành JSON

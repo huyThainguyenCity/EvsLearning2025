@@ -1,7 +1,9 @@
 ﻿$(document).ready(function () {
+    let apiBaseUrl = "https://localhost:7118";
+
     function fetchData() {
         $.ajax({
-            url: "https://localhost:7118/api/Question/GetAllQuestionGroup",
+            url: `${apiBaseUrl}/api/Question/GetAllQuestionGroup`,
             type: "POST",
             contentType: "application/json",
             success: function (data) {
@@ -62,7 +64,7 @@
         }
 
         $.ajax({
-            url: "https://localhost:7118/api/Question/QuestionGroup",
+            url: `${apiBaseUrl}/api/Question/QuestionGroup`,
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(newQuestionLevel),
@@ -92,7 +94,7 @@
         const questionId = $(this).data("id");
 
         $.ajax({
-            url: `https://localhost:7118/api/Question/QuestionGroup/${questionId}`,
+            url: `${apiBaseUrl}/api/Question/QuestionGroup/${questionId}`,
             type: "GET",
             contentType: "application/json",
             success: function (data) {
@@ -130,7 +132,7 @@
         };
 
         $.ajax({
-            url: `https://localhost:7118/api/Question/QuestionGroup`,
+            url: `${apiBaseUrl}/api/Question/QuestionGroup`,
             type: "PUT",
             contentType: "application/json",
             data: JSON.stringify(updatedQuestion),
