@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace EvesLearning.Repository
 {
@@ -374,22 +375,46 @@ namespace EvesLearning.Repository
             await _context.SaveChangesAsync();
 
             var existingAnswers = await _context.QuestionAnswers.Where(qa => qa.QuestionId == existingQuestion.Id).ToListAsync();
-            _context.QuestionAnswers.RemoveRange(existingAnswers);
 
-            foreach (var correctAnswer in updateQuestion.Correct)
+            // Tạo danh sách các câu trả lời mới từ mảng Correct
+            var correctAnswers = updateQuestion.Correct.Select(c => c.ToString()).ToList();
+
+            // Cập nhật hoặc thêm mới các câu trả lời đúng
+            foreach (var correctAnswer in correctAnswers)
             {
-                var questionAnswer = new QuestionAnswer
-                {
-                    QuestionId = updateQuestion.Id,
-                    AnswerName = updateQuestion.Name,
-                    Correct = correctAnswer.ToString(),
-                    ModifyBy = updateQuestion.ModifyBy,
-                    DateModify = updateQuestion.DateModify ?? DateTime.Now
-                };
+                // Tìm câu trả lời trong bảng QuestionAnswers
+                var existingAnswer = existingAnswers.FirstOrDefault(qa => qa.Correct == correctAnswer);
 
-                _context.QuestionAnswers.Add(questionAnswer);
+                if (existingAnswer != null)
+                {
+                    // Nếu câu trả lời đã tồn tại, cập nhật thông tin
+                    existingAnswer.AnswerName = updateQuestion.Name;
+                    existingAnswer.ModifyBy = updateQuestion.ModifyBy;
+                    existingAnswer.DateModify = DateTime.UtcNow;
+                }
+                else
+                {
+                    // Nếu chưa có câu trả lời đúng mới, thêm vào bảng QuestionAnswers
+                    _context.QuestionAnswers.Add(new QuestionAnswer
+                    {
+                        QuestionId = updateQuestion.Id,
+                        AnswerName = updateQuestion.Name,
+                        Correct = correctAnswer,
+                        ModifyBy = updateQuestion.ModifyBy,
+                        DateModify = DateTime.UtcNow
+                    });
+                }
             }
 
+            // Xóa các câu trả lời không còn đúng (không có trong mảng Correct)
+            var answersToRemove = existingAnswers
+                .Where(qa => !correctAnswers.Contains(qa.Correct)) // Lọc ra các câu trả lời không còn đúng
+                .ToList();
+
+            // Xóa những câu trả lời không còn đúng
+            _context.QuestionAnswers.RemoveRange(answersToRemove);
+
+            // Lưu các thay đổi vào cơ sở dữ liệu
             await _context.SaveChangesAsync();
         }
 
@@ -399,7 +424,6 @@ namespace EvesLearning.Repository
 
             var results = userAnswers.Select(userAnswer =>
             {
-                // Tìm câu hỏi trong danh sách
                 var question = questions.FirstOrDefault(q => q.ID == userAnswer.QuestionId);
 
                 if (question == null)
@@ -408,28 +432,35 @@ namespace EvesLearning.Repository
                     {
                         QuestionId = userAnswer.QuestionId,
                         IsCorrect = false,
-                        CorrectAnswer = string.Empty // hoặc gán null, tùy trường hợp
+                        CorrectAnswer = string.Empty
                     };
                 }
-                // Kiểm tra nếu người dùng không chọn câu trả lời
-                if (string.IsNullOrEmpty(userAnswer.SelectedAnswer))
+                string selectedAnswer = string.Join(",", userAnswer.SelectedAnswer);
+
+                if (string.IsNullOrEmpty(selectedAnswer))
                 {
                     return new AnswerResultDTO
                     {
                         QuestionId = userAnswer.QuestionId,
                         IsCorrect = false,
-                        CorrectAnswer = question.Correct // Hiển thị đáp án đúng
+                        CorrectAnswer = question.Correct
                     };
                 }
 
-                // Kiểm tra nếu câu trả lời của người dùng đúng
-                var isCorrect = question.Correct == userAnswer.SelectedAnswer;
+                string correctAnswer = string.Join(",", question.Correct);
+
+                var correctAnswers = (question.Correct as string ?? "").Split(',').Select(x => x.Trim()).ToList();
+                var selectedAnswers = (userAnswer.SelectedAnswer as string ?? "").Split(',').Select(x => x.Trim()).ToList();
+
+
+                var isCorrect = selectedAnswers.All(answer => correctAnswers.Contains(answer))
+                               && correctAnswers.Count == selectedAnswers.Count;
 
                 return new AnswerResultDTO
                 {
                     QuestionId = userAnswer.QuestionId,
                     IsCorrect = isCorrect,
-                    CorrectAnswer = question.Correct
+                    CorrectAnswer = string.Join(",", correctAnswer)
                 };
             });
 
