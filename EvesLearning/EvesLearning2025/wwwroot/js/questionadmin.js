@@ -164,9 +164,12 @@
     addNewForm.on("submit", function (event) {
         event.preventDefault(); // Ngừng hành vi gửi form mặc định
 
-        const selectedCorrectAnswer = $('input[name="correctAnswer"]:checked').val();
-        if (!selectedCorrectAnswer) {
-            alert("Vui lòng chọn đáp án đúng!");
+        const selectedCorrectAnswers = $('input[name="correctAnswer"]:checked')
+            .map(function () { return parseInt(this.value); })  // Chuyển giá trị checkbox thành số nguyên
+            .get();  // Lấy tất cả các giá trị của các checkbox đã chọn dưới dạng mảng số nguyên
+
+        if (selectedCorrectAnswers.length === 0) {
+            alert("Vui lòng chọn ít nhất một đáp án đúng!");
             return;
         }
 
@@ -178,9 +181,9 @@
             Answer4: $("#answer4").val().trim(),
             QuestionCategoryID: $("#category").val(),  // Lấy giá trị ID của danh mục đã chọn
             QuestionLevelID: $("#level").val(),       // Lấy giá trị ID của mức độ đã chọn
-            Correct: selectedCorrectAnswer
+            Correct: selectedCorrectAnswers  // Gửi mảng số nguyên
         };
-
+        console.log(newQuestionLevel);
         if (!newQuestionLevel.Name) {
             alert("Tên không được để trống!");
             return;
@@ -229,6 +232,8 @@
                         fetchCategoriesUpdate(data.QuestionCategoryID);
                         fetchLevelsUpdate(data.QuestionLevelID);
 
+                        resetUpdateModal();
+
                         $("#updateName").val(data.Name || "");
                         $("#updateAnswer1").val(data.Answer1 || "");
                         $("#updateAnswer2").val(data.Answer2 || "");
@@ -237,7 +242,12 @@
                         $("#updateCategory").val(data.QuestionCategoryID || "");
                         $("#updateLevel").val(data.QuestionLevelID || "");
 
-                        $(`input[name="updateCorrectAnswer"][value="${data.Correct}"]`).prop("checked", true);
+                        // Chuyển chuỗi Correct thành mảng và đánh dấu checkbox tương ứng
+                        const correctAnswers = data.Correct.split(",");  // Tách chuỗi thành mảng
+
+                        correctAnswers.forEach(function (correctAnswer) {
+                            $(`input[name="updateCorrectAnswer"][value="${correctAnswer}"]`).prop("checked", true);
+                        });
 
                         $("#updateForm").data("id", questionId);
 
@@ -255,15 +265,27 @@
                 });           
     });
 
+    // Hàm reset dữ liệu modal cập nhật
+    function resetUpdateModal() {
+        // Reset các giá trị trong form và checkbox
+        $("#updateForm")[0].reset(); // Reset form
+        $('input[name="updateCorrectAnswer"]').prop('checked', false); // Bỏ chọn tất cả checkbox
+        $("#updateForm").removeData("id");  // Xóa ID câu hỏi đã lưu
+    }
+
     // Xử lý khi submit form "Cập nhật"
     $("#updateForm").on("submit", function (event) {
         event.preventDefault();
 
         const questionId = $(this).data("id");
 
-        const selectedCorrectAnswer = $('input[name="updateCorrectAnswer"]:checked').val();
-        if (!selectedCorrectAnswer) {
-            alert("Vui lòng chọn đáp án đúng!");
+        // Lấy tất cả các đáp án đúng được chọn
+        const selectedCorrectAnswers = $('input[name="updateCorrectAnswer"]:checked')
+            .map(function () { return parseInt(this.value); })  // Chuyển giá trị sang số (nếu cần)
+            .get();
+
+        if (selectedCorrectAnswers.length === 0) {
+            alert("Vui lòng chọn ít nhất một đáp án đúng!");
             return;
         }
 
@@ -274,10 +296,12 @@
             Answer2: $("#updateAnswer2").val().trim(),
             Answer3: $("#updateAnswer3").val().trim(),
             Answer4: $("#updateAnswer4").val().trim(),
-            Correct: selectedCorrectAnswer,
+            Correct: selectedCorrectAnswers,  // Cập nhật Correct với mảng số
             QuestionCategoryID: $("#updatecategory").val(),
             QuestionLevelID: $("#updatelevel").val()
         };
+
+        console.log(updatedQuestion);
 
         $.ajax({
             url: `${apiBaseUrl}/api/Question`, 

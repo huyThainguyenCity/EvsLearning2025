@@ -38,9 +38,9 @@
                     answers.forEach((answer, optionIndex) => {
                         const label = document.createElement("label");
                         const input = document.createElement("input");
-                        input.type = "radio";
-                        input.name = `question${index + 1}`;  // Đảm bảo mỗi câu hỏi có nhóm radio riêng
-                        input.value = optionIndex + 1; // Đặt giá trị radio là 1, 2, 3, 4
+                        input.type = "checkbox";
+                        input.name = `question${index + 1}`;  // Đảm bảo mỗi câu hỏi có nhóm checkbox  riêng
+                        input.value = optionIndex + 1; // Đặt giá trị checkbox  là 1, 2, 3, 4
                         label.appendChild(input);
                         label.appendChild(document.createTextNode(answer));
                         optionsDiv.appendChild(label);
@@ -121,11 +121,13 @@
         const userAnswers = [];
 
         questions.forEach((question, index) => {
-            const selectedAnswer = question.querySelector(`input[name="question${index + 1}"]:checked`);
-            if (selectedAnswer) {
+            const selectedAnswers = Array.from(question.querySelectorAll(`input[name="question${index + 1}"]:checked`))
+                .map(input => input.value); // Lấy tất cả các giá trị đã chọn
+
+            if (selectedAnswers.length > 0) {
                 const userAnswer = {
                     QuestionId: questionData[index].ID, // ID câu hỏi từ dữ liệu API
-                    SelectedAnswer: selectedAnswer.value, // Đáp án người dùng chọn
+                    SelectedAnswer: selectedAnswers.join(","), // Gửi danh sách đáp án dưới dạng chuỗi "2,3"
                 };
                 userAnswers.push(userAnswer);
             }
@@ -138,6 +140,7 @@
             contentType: "application/json",
             data: JSON.stringify(userAnswers), // Chuyển đổi dữ liệu người dùng thành JSON
             success: function (data) {
+                console.log(data);
                 // Xử lý kết quả trả về từ API
                 data.forEach((result, index) => {
                     // Tìm câu hỏi dựa trên ID
