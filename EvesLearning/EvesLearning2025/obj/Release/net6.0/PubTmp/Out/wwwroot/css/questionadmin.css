@@ -1,0 +1,12 @@
+﻿table tr td img {
+    width: 300px ;
+    height: auto;
+}
+#addNewLevel .modal-dialog {
+    max-width: 90%; /* Đặt độ rộng modal theo ý muốn */
+    width: 90%; /* Chỉnh độ rộng */
+}
+#updateLevel .modal-dialog {
+    max-width: 90%; /* Đặt độ rộng modal theo ý muốn */
+    width: 90%; /* Chỉnh độ rộng */
+}

@@ -8,7 +8,7 @@
         public string? Answer2 { get; set; }
         public string? Answer3 { get; set; }
         public string? Answer4 { get; set; }
-        public string? Correct { get; set; }
+        public List<int>? Correct { get; set; }
         public int? QuestionCategoryID { get; set; }
         public int? QuestionLevelID { get; set; }
     }

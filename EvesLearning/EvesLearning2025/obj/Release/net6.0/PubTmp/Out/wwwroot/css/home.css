@@ -1,0 +1,259 @@
+﻿.text-center {
+    text-align: center;
+    padding: 20px;
+}
+
+.so-panel {
+    margin: 15px 0;
+}
+
+.thim-widget-courses-base {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.wrapper-item.archive-courses {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.col-sm-3 {
+    flex: 0 0 23%;
+    max-width: 23%;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+}
+    .col-sm-3:hover,
+    .col-sm-3.selected {
+        transform: scale(1.1);
+        box-shadow: 0 0 15px 5px rgba(128, 0, 128, 0.6);
+        z-index: 1;
+    }
+
+    .col-sm-3.selected {
+        position: relative;
+    }
+.inner-course {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+    .inner-course:hover {
+        transform: translateY(-5px);
+    }
+
+.wrapper-course-thumbnail {
+    position: relative;
+}
+
+.course-thumbnail {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+    .course-thumbnail img {
+        width: 100%;
+        height: auto;
+        border-bottom: 3px solid #f4f4f4;
+    }
+
+.label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.teacher_course {
+    margin-top: 20px;
+}
+
+.author-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.author-avatar {
+    margin-right: 10px;
+}
+
+.avatar {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+.author-bio {
+    flex: 1;
+}
+
+.author-top .name {
+    font-size: 16px;
+    color: #333;
+    text-decoration: none;
+}
+
+.course-title h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 10px 0;
+}
+
+.course-title a {
+    text-decoration: none;
+    color: #333;
+}
+
+    .course-title a:hover {
+        color: #007bff;
+    }
+
+.wrapper-course-price {
+    margin: 15px 0;
+}
+
+.course-price .course-item-price .free {
+    font-size: 16px;
+    color: green;
+    font-weight: bold;
+}
+
+.course-students {
+    font-size: 14px;
+    color: #777;
+}
+
+.course-rating {
+    display: flex;
+    align-items: center;
+}
+
+.review-stars-rated {
+    display: flex;
+    margin-top: 5px;
+}
+
+.review-star {
+    display: flex;
+}
+
+.lp-review-svg-star {
+    width: 24px;
+    height: 24px;
+    margin-right: 2px;
+}
+
+.fas.lp-review-svg-star {
+    fill: #f39c12;
+}
+
+.far.lp-review-svg-star {
+    fill: none;
+    stroke: #f39c12;
+    stroke-width: 1.5em;
+}
+
+.review-star em.fas {
+    color: gold; 
+    font-size: 1.2em;
+}
+
+.review-star em.far {
+    color: gold; 
+    font-size: 1.2em;
+}
+/* Banner */
+.banner-container {
+    position: relative;
+    width: 100%; 
+    height: 100vh; 
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+}
+
+.banner-content {
+    text-align: center;
+    color: #333; 
+    padding: 20px;
+    z-index: 2;
+}
+
+.slider {
+    position: relative;
+    width: 90%; 
+    max-width: 1200px; 
+    margin: 0 auto;
+    overflow: hidden; 
+
+.slide img {
+    width: 100%;
+    max-height: 400px; 
+    object-fit: cover; 
+    border-radius: 10px; 
+    transition: transform 0.3s ease, filter 0.3s ease; 
+}
+
+.slide-info {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.slide {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+    .slide.active {
+        display: block;
+        opacity: 1;
+    }
+
+.slider-controls {
+    position: absolute;
+    top: 50%; 
+    width: 100%;
+    display: flex;
+    justify-content: space-between; 
+    transform: translateY(-50%); 
+    z-index: 3;
+}
+
+    .slider-controls button {
+        background-color: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .slider-controls button:hover {
+            background-color: #777; 
+        }
+
+        .slider-controls button:focus {
+            outline: none;
+        }
+
+

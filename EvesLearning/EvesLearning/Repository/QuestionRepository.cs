@@ -59,27 +59,27 @@ namespace EvesLearning.Repository
                 throw new Exception($"Error calling stored procedure: {ex.Message}");
             }
         }
-		public async Task<IEnumerable<dynamic>> GetAllQuestionType()
-		{
-			try
-			{
-				var connectionString = _context.Database.GetDbConnection().ConnectionString;
+        public async Task<IEnumerable<dynamic>> GetAllQuestionType()
+        {
+            try
+            {
+                var connectionString = _context.Database.GetDbConnection().ConnectionString;
 
-				using var connection = new SqlConnection(connectionString);
-				await connection.OpenAsync();
+                using var connection = new SqlConnection(connectionString);
+                await connection.OpenAsync();
 
-				var result = await connection.QueryAsync(
-					"EL_GetAllQuestionType",
-					commandType: CommandType.StoredProcedure
-				);
+                var result = await connection.QueryAsync(
+                    "EL_GetAllQuestionType",
+                    commandType: CommandType.StoredProcedure
+                );
 
-				return result;
-			}
-			catch (Exception ex)
-			{
-				throw new Exception($"Error calling stored procedure: {ex.Message}");
-			}
-		}
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error calling stored procedure: {ex.Message}");
+            }
+        }
         public async Task<IEnumerable<dynamic>> GetAllQuestionGroup()
         {
             try
@@ -101,29 +101,29 @@ namespace EvesLearning.Repository
                 throw new Exception($"Error calling stored procedure: {ex.Message}");
             }
         }
-		public async Task<IEnumerable<dynamic>> GetAllQuestionGrammar()
-		{
-			try
-			{
-				var connectionString = _context.Database.GetDbConnection().ConnectionString;
+        public async Task<IEnumerable<dynamic>> GetAllQuestionGrammar()
+        {
+            try
+            {
+                var connectionString = _context.Database.GetDbConnection().ConnectionString;
 
-				using var connection = new SqlConnection(connectionString);
-				await connection.OpenAsync();
+                using var connection = new SqlConnection(connectionString);
+                await connection.OpenAsync();
 
-				var result = await connection.QueryAsync(
-					"EL_GetAllQuestionGrammar",
-					commandType: CommandType.StoredProcedure
-				);
+                var result = await connection.QueryAsync(
+                    "EL_GetAllQuestionGrammar",
+                    commandType: CommandType.StoredProcedure
+                );
 
-				return result;
-			}
-			catch (Exception ex)
-			{
-				throw new Exception($"Error calling stored procedure: {ex.Message}");
-			}
-		}
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error calling stored procedure: {ex.Message}");
+            }
+        }
 
-		public async Task AddQuestionGrammarAsync(CreateQuestionGrammarDTO createQuestionGrammar)
+        public async Task AddQuestionGrammarAsync(CreateQuestionGrammarDTO createQuestionGrammar)
         {
             if (createQuestionGrammar == null)
                 throw new ArgumentNullException(nameof(createQuestionGrammar));
@@ -215,10 +215,14 @@ namespace EvesLearning.Repository
 
             await _context.SaveChangesAsync();
         }
+
         public async Task AddQuestionAsync(CreateQuestionDTO createQuestion)
         {
             if (createQuestion == null)
                 throw new ArgumentNullException(nameof(createQuestion));
+
+            // Chuyển danh sách Correct thành chuỗi "2,3"
+            string correctAnswers = string.Join(",", createQuestion.Correct);
 
             var question = new Question
             {
@@ -227,7 +231,7 @@ namespace EvesLearning.Repository
                 Answer2 = createQuestion.Answer2,
                 Answer3 = createQuestion.Answer3,
                 Answer4 = createQuestion.Answer4,
-                Correct = createQuestion.Correct,
+                Correct = correctAnswers,
                 QuestionCategoryId = createQuestion.QuestionCategoryID,
                 QuestionLevelId = createQuestion.QuestionLevelID,
                 CreatedBy = createQuestion.CreatedBy,
@@ -238,17 +242,19 @@ namespace EvesLearning.Repository
 
             await _context.SaveChangesAsync();
 
-            var questionAnswer = new QuestionAnswer
+            foreach (var correctAnswer in createQuestion.Correct)
             {
-                QuestionId = question.Id,
-                AnswerName = createQuestion.Name,
-                Correct = createQuestion.Correct,
-                CreatedBy = createQuestion.CreatedBy,
-                DateCreated = createQuestion.DateCreated ?? DateTime.Now
-            };
+                var questionAnswer = new QuestionAnswer
+                {
+                    QuestionId = question.Id,
+                    AnswerName = createQuestion.Name,
+                    Correct = correctAnswer.ToString(),
+                    CreatedBy = createQuestion.CreatedBy,
+                    DateCreated = createQuestion.DateCreated ?? DateTime.Now
+                };
 
-            _context.QuestionAnswers.Add(questionAnswer);
-
+                _context.QuestionAnswers.Add(questionAnswer);
+            }
             await _context.SaveChangesAsync();
         }
 
@@ -359,7 +365,7 @@ namespace EvesLearning.Repository
             existingQuestion.Answer2 = updateQuestion.Answer2;
             existingQuestion.Answer3 = updateQuestion.Answer3;
             existingQuestion.Answer4 = updateQuestion.Answer4;
-            existingQuestion.Correct = updateQuestion.Correct;
+            existingQuestion.Correct = string.Join(",", updateQuestion.Correct);
             existingQuestion.QuestionCategoryId = updateQuestion.QuestionCategoryID;
             existingQuestion.QuestionLevelId = updateQuestion.QuestionLevelID;
             existingQuestion.ModifyBy = updateQuestion.ModifyBy;
@@ -368,16 +374,20 @@ namespace EvesLearning.Repository
             await _context.SaveChangesAsync();
 
             var existingAnswers = await _context.QuestionAnswers.Where(qa => qa.QuestionId == existingQuestion.Id).ToListAsync();
+            _context.QuestionAnswers.RemoveRange(existingAnswers);
 
-            foreach (var answer in existingAnswers)
+            foreach (var correctAnswer in updateQuestion.Correct)
             {
-                if (answer != null)
+                var questionAnswer = new QuestionAnswer
                 {
-                    answer.AnswerName = updateQuestion.Name; 
-                    answer.Correct = updateQuestion.Correct; 
-                    answer.ModifyBy = updateQuestion.ModifyBy;
-                    answer.DateCreated = DateTime.UtcNow;
-                }
+                    QuestionId = updateQuestion.Id,
+                    AnswerName = updateQuestion.Name,
+                    Correct = correctAnswer.ToString(),
+                    ModifyBy = updateQuestion.ModifyBy,
+                    DateModify = updateQuestion.DateModify ?? DateTime.Now
+                };
+
+                _context.QuestionAnswers.Add(questionAnswer);
             }
 
             await _context.SaveChangesAsync();
@@ -551,7 +561,7 @@ namespace EvesLearning.Repository
                 Name = CreateQuestionCategories.Name,
                 ShortContent = CreateQuestionCategories.ShortContent,
                 Contents = CreateQuestionCategories.Contents,
-                Contents2 = CreateQuestionCategories.Contents2,              
+                Contents2 = CreateQuestionCategories.Contents2,
                 CreatedBy = CreateQuestionCategories.CreatedBy,
                 DateCreated = CreateQuestionCategories.DateCreated ?? DateTime.Now
             };

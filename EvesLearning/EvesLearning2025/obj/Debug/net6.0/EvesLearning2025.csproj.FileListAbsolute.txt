@@ -255,9 +255,4 @@ C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning2025
 C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning2025\obj\Debug\net6.0\EvesLearning2025.pdb
 C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning2025\obj\Debug\net6.0\EvesLearning2025.genruntimeconfig.cache
 C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning2025\obj\Debug\net6.0\ref\EvesLearning2025.dll
-C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning2025\bin\Debug\net6.0\EvesLearning.staticwebassets.endpoints.json
-C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning2025\bin\Debug\net6.0\EvesLearning2025.staticwebassets.endpoints.json
-C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning2025\obj\Debug\net6.0\EvesLearning2025.sourcelink.json
-C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning2025\obj\Debug\net6.0\staticwebassets.build.endpoints.json
-C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning2025\obj\Debug\net6.0\staticwebassets\msbuild.EvesLearning2025.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
-C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning2025\obj\Debug\net6.0\EvesLear.52608078.Up2Date
+C:\Users\huydq\Desktop\EvsLearning\EvsLearning2025\EvesLearning\EvesLearning2025\obj\Debug\net6.0\EvesLearning2025.csproj.CopyComplete
