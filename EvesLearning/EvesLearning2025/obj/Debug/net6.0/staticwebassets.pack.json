@@ -2,7 +2,7 @@
   "Files": [
     {
       "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\EvesLearning2025.bundle.scp.css",
-      "PackagePath": "staticwebassets\\EvesLearning2025.9qlp6z2hpk.bundle.scp.css"
+      "PackagePath": "staticwebassets\\EvesLearning2025.bundle.scp.css"
     },
     {
       "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\css\\home.css",
@@ -311,10 +311,6 @@
     {
       "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
-    },
-    {
-      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.EvesLearning2025.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
-      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
     },
     {
       "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.EvesLearning2025.Microsoft.AspNetCore.StaticWebAssets.props",
