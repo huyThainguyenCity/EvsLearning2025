@@ -376,25 +376,20 @@ namespace EvesLearning.Repository
 
             var existingAnswers = await _context.QuestionAnswers.Where(qa => qa.QuestionId == existingQuestion.Id).ToListAsync();
 
-            // Tạo danh sách các câu trả lời mới từ mảng Correct
             var correctAnswers = updateQuestion.Correct.Select(c => c.ToString()).ToList();
 
-            // Cập nhật hoặc thêm mới các câu trả lời đúng
             foreach (var correctAnswer in correctAnswers)
             {
-                // Tìm câu trả lời trong bảng QuestionAnswers
                 var existingAnswer = existingAnswers.FirstOrDefault(qa => qa.Correct == correctAnswer);
 
                 if (existingAnswer != null)
                 {
-                    // Nếu câu trả lời đã tồn tại, cập nhật thông tin
                     existingAnswer.AnswerName = updateQuestion.Name;
                     existingAnswer.ModifyBy = updateQuestion.ModifyBy;
                     existingAnswer.DateModify = DateTime.UtcNow;
                 }
                 else
                 {
-                    // Nếu chưa có câu trả lời đúng mới, thêm vào bảng QuestionAnswers
                     _context.QuestionAnswers.Add(new QuestionAnswer
                     {
                         QuestionId = updateQuestion.Id,
@@ -406,15 +401,12 @@ namespace EvesLearning.Repository
                 }
             }
 
-            // Xóa các câu trả lời không còn đúng (không có trong mảng Correct)
             var answersToRemove = existingAnswers
-                .Where(qa => !correctAnswers.Contains(qa.Correct)) // Lọc ra các câu trả lời không còn đúng
+                .Where(qa => !correctAnswers.Contains(qa.Correct)) 
                 .ToList();
 
-            // Xóa những câu trả lời không còn đúng
             _context.QuestionAnswers.RemoveRange(answersToRemove);
 
-            // Lưu các thay đổi vào cơ sở dữ liệu
             await _context.SaveChangesAsync();
         }
 
@@ -613,6 +605,149 @@ namespace EvesLearning.Repository
 
                 var result = await connection.QueryAsync(
                     "EL_GetAllQuestionCategories",
+                    commandType: CommandType.StoredProcedure
+                );
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error calling stored procedure: {ex.Message}");
+            }
+        }
+
+        public async Task DeleteQuestionTypeAsync(int questionTypeId)
+        {
+            if (questionTypeId <= 0)
+            {
+                throw new ArgumentException("Invalid question type ID", nameof(questionTypeId));
+            }
+
+            var existingQuestionType = await _context.QuestionTypes
+                .FirstOrDefaultAsync(q => q.Id == questionTypeId);
+
+            if (existingQuestionType == null)
+            {
+                throw new KeyNotFoundException($"QuestionType with ID {questionTypeId} not found.");
+            }
+
+            existingQuestionType.Deleted = 1;
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteQuestionLevelAsync(int questionLevelId)
+        {
+            if (questionLevelId <= 0)
+            {
+                throw new ArgumentException("Invalid question level ID", nameof(questionLevelId));
+            }
+
+            var existingQuestionLevel = await _context.QuestionLevels
+                .FirstOrDefaultAsync(q => q.Id == questionLevelId);
+
+            if (existingQuestionLevel == null)
+            {
+                throw new KeyNotFoundException($"QuestionLevel with ID {questionLevelId} not found.");
+            }
+
+            existingQuestionLevel.Deleted = 1;
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteQuestionGroupAsync(int questionGroupId)
+        {
+            if (questionGroupId <= 0)
+            {
+                throw new ArgumentException("Invalid question group ID", nameof(questionGroupId));
+            }
+
+            var existingQuestionGroup = await _context.QuestionGroups
+                .FirstOrDefaultAsync(q => q.Id == questionGroupId);
+
+            if (existingQuestionGroup == null)
+            {
+                throw new KeyNotFoundException($"QuestionLevel with ID {questionGroupId} not found.");
+            }
+
+            existingQuestionGroup.Deleted = 1;
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteQuestionGrammarAsync(int questionGrammarId)
+        {
+            if (questionGrammarId <= 0)
+            {
+                throw new ArgumentException("Invalid question grammar ID", nameof(questionGrammarId));
+            }
+
+            var existingQuestionGrammar = await _context.QuestionGrammars
+                .FirstOrDefaultAsync(q => q.Id == questionGrammarId);
+
+            if (existingQuestionGrammar == null)
+            {
+                throw new KeyNotFoundException($"QuestionGrammar with ID {questionGrammarId} not found.");
+            }
+
+            existingQuestionGrammar.Deleted = 1;
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateQuestionCategoriesAsync(UpdateQuestionCategoriesDTO updateQuestionCategories)
+        {
+            if (updateQuestionCategories == null)
+            {
+                throw new ArgumentNullException(nameof(updateQuestionCategories), "Question categories cannot be null");
+            }
+
+            var existingQuestionCategories = await _context.QuestionCategories.FirstOrDefaultAsync(q => q.Id == updateQuestionCategories.ID)
+                           ?? throw new KeyNotFoundException($"ID {updateQuestionCategories.ID} not found.");
+
+            existingQuestionCategories.Name = updateQuestionCategories.Name;
+            existingQuestionCategories.ShortContent = updateQuestionCategories.ShortContent;
+            existingQuestionCategories.Contents = updateQuestionCategories.Contents;
+            existingQuestionCategories.Contents2 = updateQuestionCategories.Contents2;
+            existingQuestionCategories.ModifyBy = updateQuestionCategories.ModifyBy;
+            existingQuestionCategories.DateModify = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteQuestionCategoriesAsync(int questionCategoriesId)
+        {
+            if (questionCategoriesId <= 0)
+            {
+                throw new ArgumentException("Invalid question categories ID", nameof(questionCategoriesId));
+            }
+
+            var existingQuestionCategories = await _context.QuestionCategories
+                .FirstOrDefaultAsync(q => q.Id == questionCategoriesId);
+
+            if (existingQuestionCategories == null)
+            {
+                throw new KeyNotFoundException($"QuestionCategories with ID {questionCategoriesId} not found.");
+            }
+
+            existingQuestionCategories.Deleted = 1;
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<dynamic> GetQuestionCategoriesByIdAsync(int questionCategoriesId)
+        {
+            try
+            {
+                var connectionString = _context.Database.GetDbConnection().ConnectionString;
+
+                using var connection = new SqlConnection(connectionString);
+                await connection.OpenAsync();
+
+                var result = await connection.QueryFirstOrDefaultAsync(
+                    "EL_GetDetailQuestionCategories",
+                    new { id = questionCategoriesId },
                     commandType: CommandType.StoredProcedure
                 );
 

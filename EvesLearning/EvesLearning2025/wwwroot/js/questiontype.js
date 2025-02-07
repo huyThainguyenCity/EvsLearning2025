@@ -31,7 +31,7 @@
                             <td>${getValue(item.Language)}</td>
                             <td>
                                <button type="button" class="btn btn-primary btn-update" data-id="${item.ID}">Cập nhật</button>
-                                <button type="button" class="btn btn-danger btn-delete" data-id="${item.ID}">Xóa</button>
+                               <button type="button" class="btn btn-danger btn-delete" data-id="${item.ID}">Xóa</button>
                             </td> 
                         </tr>
                     `;
@@ -144,6 +144,29 @@
             error: function (xhr, status, error) {
                 console.error("Lỗi khi cập nhật dữ liệu:", error);
                 alert("Có lỗi xảy ra khi cập nhật dữ liệu.");
+            }
+        });
+    });
+
+    // Xử lý khi nhấn nút "Xóa"
+    $("table").on("click", ".btn-delete", function () {
+        const questionId = $(this).data("id");
+
+        if (!confirm("Bạn có chắc chắn muốn xóa không?")) {
+            return;
+        }
+
+        $.ajax({
+            url: `${apiBaseUrl}/api/Question/QuestionType/${questionId}`,
+            type: "DELETE",
+            contentType: "application/json",
+            success: function (response) {
+                alert("Xóa thành công!");
+                fetchData();
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi xóa:", error);
+                alert("Có lỗi xảy ra khi xóa.");
             }
         });
     });

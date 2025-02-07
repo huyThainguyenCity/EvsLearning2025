@@ -6,6 +6,7 @@
         public string? ShortContent { get; set; }
         public string? Contents { get; set; }
         public string? Contents2 { get; set; }
+        public int? Deleted { get; set; }
     }
     public class CreateQuestionCategoriesDTO : QuestionCategoriesDTO
     {

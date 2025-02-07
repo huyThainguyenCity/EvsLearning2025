@@ -264,6 +264,21 @@ namespace EvesLearning.Controllers
             }
         }
 
+        [HttpPut("QuestionCategories")]
+        public async Task<IActionResult> UpdateQuestionCategories([FromBody] UpdateQuestionCategoriesDTO questionCategoriesDto)
+        {
+            try
+            {
+                await _questionRepositoy.UpdateQuestionCategoriesAsync(questionCategoriesDto);
+
+                return Ok(new { Message = "Question categories updated successfully!" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
+
         [HttpPut]
         public async Task<IActionResult> UpdateQuestion([FromBody] UpdateQuestionDTO questionDto)
         {
@@ -342,6 +357,129 @@ namespace EvesLearning.Controllers
             }
 
             return Ok(questions);
+        }
+
+        [HttpGet("QuestionCategories/{id}")]
+        public async Task<IActionResult> GetQuestionCategoriesById(int id)
+        {
+            var questions = await _questionRepositoy.GetQuestionCategoriesByIdAsync(id);
+
+            if (questions == null)
+            {
+                return NotFound("Question categories not found");
+            }
+
+            return Ok(questions);
+        }
+
+        [HttpDelete("QuestionType/{id}")]
+        public async Task<IActionResult> DeleteQuestionTypeById(int id)
+        {
+            try
+            {
+                await _questionRepositoy.DeleteQuestionTypeAsync(id);
+                return Ok(new { Message = "Question type deleted successfully!" });
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new { Error = "Question type not found." });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { Error = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
+
+        [HttpDelete("QuestionLevel/{id}")]
+        public async Task<IActionResult> DeleteQuestionLevelById(int id)
+        {
+            try
+            {
+                await _questionRepositoy.DeleteQuestionLevelAsync(id);
+                return Ok(new { Message = "Question level deleted successfully!" });
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new { Error = "Question level not found." });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { Error = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
+
+        [HttpDelete("QuestionGroup/{id}")]
+        public async Task<IActionResult> DeleteQuestionGroupById(int id)
+        {
+            try
+            {
+                await _questionRepositoy.DeleteQuestionGroupAsync(id);
+                return Ok(new { Message = "Question group deleted successfully!" });
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new { Error = "Question group not found." });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { Error = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
+
+        [HttpDelete("QuestionGrammar/{id}")]
+        public async Task<IActionResult> DeleteQuestionGrammarById(int id)
+        {
+            try
+            {
+                await _questionRepositoy.DeleteQuestionGrammarAsync(id);
+                return Ok(new { Message = "Question grammar deleted successfully!" });
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new { Error = "Question grammar not found." });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { Error = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
+
+        [HttpDelete("QuestionCategories/{id}")]
+        public async Task<IActionResult> DeleteQuestionCategoriesById(int id)
+        {
+            try
+            {
+                await _questionRepositoy.DeleteQuestionCategoriesAsync(id);
+                return Ok(new { Message = "Question categories deleted successfully!" });
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new { Error = "Question categories not found." });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { Error = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Error = ex.Message });
+            }
         }
     }
 }
