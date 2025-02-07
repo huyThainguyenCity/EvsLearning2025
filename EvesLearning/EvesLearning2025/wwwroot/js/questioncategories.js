@@ -92,13 +92,16 @@
         const questionId = $(this).data("id");
 
         $.ajax({
-            url: `${apiBaseUrl}/api/Question/QuestionLevel/${questionId}`,
+            url: `${apiBaseUrl}/api/Question/QuestionCategories/${questionId}`,
             type: "GET",
             contentType: "application/json",
             success: function (data) {
                 console.log("Dữ liệu câu hỏi:", data);
 
                 $("#updateName").val(data.Name || "");
+                $("#updateShortContent").val(data.ShortContent || "");
+                $("#updateContent").val(data.Contents || "");
+                $("#updateContent2").val(data.Contents2 || "");
 
                 $("#updateForm").data("id", questionId);
 
@@ -119,11 +122,14 @@
 
         const updatedQuestion = {
             ID: questionId,
-            Name: $("#updateName").val().trim()
+            Name: $("#updateName").val().trim(),
+            ShortContent: $("#updateShortContent").val().trim(),
+            Contents: $("#updateContent").val().trim(),
+            Contents2: $("#updateContent2").val().trim()
         };
 
         $.ajax({
-            url: `${apiBaseUrl}/api/Question/QuestionLevel`,
+            url: `${apiBaseUrl}/api/Question/QuestionCategories`,
             type: "PUT",
             contentType: "application/json",
             data: JSON.stringify(updatedQuestion),
@@ -135,6 +141,29 @@
             error: function (xhr, status, error) {
                 console.error("Lỗi khi cập nhật dữ liệu:", error);
                 alert("Có lỗi xảy ra khi cập nhật dữ liệu.");
+            }
+        });
+    });
+
+    // Xử lý khi nhấn nút "Xóa"
+    $("table").on("click", ".btn-delete", function () {
+        const questionId = $(this).data("id");
+
+        if (!confirm("Bạn có chắc chắn muốn xóa không?")) {
+            return;
+        }
+
+        $.ajax({
+            url: `${apiBaseUrl}/api/Question/QuestionCategories/${questionId}`,
+            type: "DELETE",
+            contentType: "application/json",
+            success: function (response) {
+                alert("Xóa thành công!");
+                fetchData();
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi xóa:", error);
+                alert("Có lỗi xảy ra khi xóa.");
             }
         });
     });

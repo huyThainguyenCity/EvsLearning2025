@@ -147,4 +147,27 @@
             }
         });
     });
+
+    // Xử lý khi nhấn nút "Xóa"
+    $("table").on("click", ".btn-delete", function () {
+        const questionId = $(this).data("id");
+
+        if (!confirm("Bạn có chắc chắn muốn xóa không?")) {
+            return;
+        }
+
+        $.ajax({
+            url: `${apiBaseUrl}/api/Question/QuestionGrammar/${questionId}`,
+            type: "DELETE",
+            contentType: "application/json",
+            success: function (response) {
+                alert("Xóa thành công!");
+                fetchData();
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi xóa:", error);
+                alert("Có lỗi xảy ra khi xóa.");
+            }
+        });
+    });
 });
