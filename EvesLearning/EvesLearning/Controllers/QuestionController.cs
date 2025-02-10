@@ -1,6 +1,7 @@
 ﻿using BusinessObject.Models;
 using EvesLearning.DTOs;
 using EvesLearning.IRepository;
+using EvesLearning.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EvesLearning.Controllers
@@ -481,5 +482,30 @@ namespace EvesLearning.Controllers
                 return StatusCode(500, new { Error = ex.Message });
             }
         }
+
+        [HttpPost("import")]
+        public async Task<IActionResult> ImportQuestions(IFormFile file)
+        {
+            try
+            {
+                await _questionRepositoy.ImportQuestionsFromExcelAsync(file);
+                return Ok(new { message = "Import câu hỏi thành công!" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = $"Lỗi khi import file: {ex.Message}" });
+            }
+        }
+
+        [HttpGet("download-template")]
+        public async Task<IActionResult> DownloadExcelTemplateQuestion()
+        {
+            var fileBytes = await _questionRepositoy.DownloadExcelTemplateQuestion();
+            var fileName = "MauImport_CauHoi.xlsx";
+            var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+            return File(fileBytes, contentType, fileName);
+        }
+
     }
 }

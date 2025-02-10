@@ -5,8 +5,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using Dapper;
-using Microsoft.AspNetCore.Mvc;
-using System.Linq;
+using OfficeOpenXml;
 
 namespace EvesLearning.Repository
 {
@@ -402,7 +401,7 @@ namespace EvesLearning.Repository
             }
 
             var answersToRemove = existingAnswers
-                .Where(qa => !correctAnswers.Contains(qa.Correct)) 
+                .Where(qa => !correctAnswers.Contains(qa.Correct))
                 .ToList();
 
             _context.QuestionAnswers.RemoveRange(answersToRemove);
@@ -757,6 +756,108 @@ namespace EvesLearning.Repository
             {
                 throw new Exception($"Error calling stored procedure: {ex.Message}");
             }
+        }
+        public async Task ImportQuestionsFromExcelAsync(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                throw new ArgumentException("File không hợp lệ!");
+            }
+
+            using var stream = new MemoryStream();
+            await file.CopyToAsync(stream);
+            using var package = new ExcelPackage(stream);
+            var worksheet = package.Workbook.Worksheets[0]; // Lấy Sheet đầu tiên
+
+            var rowCount = worksheet.Dimension.Rows; // Đếm số dòng có dữ liệu
+
+            var questions = new List<Question>();
+            var questionAnswers = new List<QuestionAnswer>();
+
+            for (int row = 2; row <= rowCount; row++) // Bỏ qua dòng tiêu đề
+            {
+                var correctAnswers = worksheet.Cells[row, 6].Text
+            .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+            .Select(s => int.TryParse(s, out int num) ? num.ToString() : null)
+            .Where(s => s != null)
+            .ToList();
+                var question = new Question
+                {
+
+                    Name = worksheet.Cells[row, 1].Text,
+                    Answer1 = worksheet.Cells[row, 2].Text,
+                    Answer2 = worksheet.Cells[row, 3].Text,
+                    Answer3 = worksheet.Cells[row, 4].Text,
+                    Answer4 = worksheet.Cells[row, 5].Text,
+                    Correct = string.Join(",", correctAnswers), // Chuyển List<string> thành chuỗi
+                    //QuestionCategoryId = int.TryParse(worksheet.Cells[row, 7].Text, out int catId) ? catId : null,
+                    //QuestionLevelId = int.TryParse(worksheet.Cells[row, 8].Text, out int levelId) ? levelId : null,
+
+                    //CreatedBy = worksheet.Cells[row, 9].Text,
+                    DateCreated = DateTime.UtcNow
+                };
+                questions.Add(question);
+            }
+
+            await _context.Questions.AddRangeAsync(questions);
+            await _context.SaveChangesAsync();
+
+            // Sau khi lưu, tạo danh sách QuestionAnswer tương ứng
+            foreach (var question in questions)
+            {
+                var correctAnswers = question.Correct.Split(',')
+                    .Select(s => s.Trim())
+                    .Where(s => !string.IsNullOrEmpty(s))
+                    .ToList();
+
+                foreach (var correct in correctAnswers)
+                {
+                    var questionAnswer = new QuestionAnswer
+                    {
+                        QuestionId = question.Id, // Lấy Id của Question vừa lưu
+                        AnswerName = question.Name,
+                        Correct = correct,
+                        CreatedBy = question.CreatedBy,
+                        DateCreated = DateTime.UtcNow
+                    };
+                    questionAnswers.Add(questionAnswer);
+                }
+            }
+
+            // Thêm danh sách QuestionAnswer vào database
+            await _context.QuestionAnswers.AddRangeAsync(questionAnswers);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<byte[]> DownloadExcelTemplateQuestion()
+        {
+            using var package = new ExcelPackage();
+            var worksheet = package.Workbook.Worksheets.Add("Questions");
+
+            worksheet.Cells[1, 1].Value = "Name";
+            worksheet.Cells[1, 2].Value = "Answer1";
+            worksheet.Cells[1, 3].Value = "Answer2";
+            worksheet.Cells[1, 4].Value = "Answer3";
+            worksheet.Cells[1, 5].Value = "Answer4";
+            worksheet.Cells[1, 6].Value = "Correct (VD: 1,2)";
+            //worksheet.Cells[1, 7].Value = "QuestionCategoryId";
+            //worksheet.Cells[1, 8].Value = "QuestionLevelId";
+            //worksheet.Cells[1, 9].Value = "CreatedBy";
+            // Dữ liệu mẫu
+            worksheet.Cells[2, 1].Value = "Câu hỏi mẫu?";
+            worksheet.Cells[2, 2].Value = "Đáp án 1";
+            worksheet.Cells[2, 3].Value = "Đáp án 2";
+            worksheet.Cells[2, 4].Value = "Đáp án 3";
+            worksheet.Cells[2, 5].Value = "Đáp án 4";
+            worksheet.Cells[2, 6].Value = "1,3"; // Đáp án đúng
+            //worksheet.Cells[2, 7].Value = 4; // ID danh mục
+            //worksheet.Cells[2, 8].Value = 2; // ID mức độ
+            //worksheet.Cells[2, 9].Value = "Admin";
+
+            worksheet.Cells.AutoFitColumns();
+
+            return await Task.FromResult(package.GetAsByteArray());
+
         }
     }
 }

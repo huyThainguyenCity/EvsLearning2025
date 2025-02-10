@@ -319,4 +319,53 @@
             }
         });
     });
+
+    // Hàm import file Excel
+    function importExcel() {
+        let formData = new FormData();
+        let fileInput = $("#fileInput")[0].files[0];
+
+        if (!fileInput) {
+            alert("Vui lòng chọn file trước khi upload!");
+            return;
+        }
+
+        formData.append("file", fileInput);
+
+        $.ajax({
+            url: `${apiBaseUrl}/api/Question/import`, // Thay URL này bằng endpoint thực tế
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                $("#message").html('<span class="text-success">Import thành công!</span>');
+                alert("Import thành công!");
+                $("#importForm")[0].reset();
+                fetchData(); // Load lại danh sách câu hỏi sau khi import
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi import:", xhr.responseText);
+                $("#message").html('<span class="text-danger">Import thất bại! Kiểm tra lại file.</span>');
+                alert("Có lỗi xảy ra khi import.");
+            }
+        });
+    }
+
+    // Bắt sự kiện submit form
+    $("#importForm").on("submit", function (event) {
+        event.preventDefault(); // Ngăn hành vi submit mặc định
+        importExcel();
+    });
+
+    function downloadExcelTemplate() {
+        // Gọi API để tải file mẫu
+        window.location.href = `${apiBaseUrl}/api/Question/download-template`;
+    }
+
+    // Gán sự kiện click cho nút "Tải mẫu Excel"
+    $("#btnDownloadTemplate").on("click", function () {
+        downloadExcelTemplate();
+    });
+
 });

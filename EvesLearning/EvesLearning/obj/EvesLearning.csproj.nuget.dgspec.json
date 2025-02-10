@@ -123,6 +123,10 @@
               "target": "Package",
               "version": "[2.1.35, )"
             },
+            "EPPlus": {
+              "target": "Package",
+              "version": "[7.6.0, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",

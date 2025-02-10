@@ -35,6 +35,8 @@ namespace EvesLearning.IRepository
         Task<dynamic> GetQuestionGrammarByIdAsync(int questionGrammarId);
         Task<dynamic> GetQuestionCategoriesByIdAsync(int questionCategoriesId);
         Task<IEnumerable<AnswerResultDTO>> CheckAnswersAsync(List<UserAnswerDTO> userAnswers);
+        Task ImportQuestionsFromExcelAsync(IFormFile file);
+        Task<byte[]> DownloadExcelTemplateQuestion();
 
     }
 }
