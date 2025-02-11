@@ -483,7 +483,29 @@ namespace EvesLearning.Controllers
             }
         }
 
-        [HttpPost("import")]
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteQuestionById(int id)
+		{
+			try
+			{
+				await _questionRepositoy.DeleteQuestionAsync(id);
+				return Ok(new { Message = "Question deleted successfully!" });
+			}
+			catch (KeyNotFoundException)
+			{
+				return NotFound(new { Error = "Question not found." });
+			}
+			catch (ArgumentException ex)
+			{
+				return BadRequest(new { Error = ex.Message });
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, new { Error = ex.Message });
+			}
+		}
+
+		[HttpPost("import")]
         public async Task<IActionResult> ImportQuestions(IFormFile file)
         {
             try

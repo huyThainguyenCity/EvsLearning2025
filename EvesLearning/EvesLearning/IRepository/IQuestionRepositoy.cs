@@ -25,7 +25,8 @@ namespace EvesLearning.IRepository
         Task DeleteQuestionGrammarAsync(int questionGrammarId);
         Task AddQuestionAsync(CreateQuestionDTO createQuestion);
         Task UpdateQuestionAsync(UpdateQuestionDTO updateQuestion);
-        Task AddQuestionCategoriesAsync(CreateQuestionCategoriesDTO CreateQuestionCategories);
+		Task DeleteQuestionAsync(int questionId);
+		Task AddQuestionCategoriesAsync(CreateQuestionCategoriesDTO CreateQuestionCategories);
         Task UpdateQuestionCategoriesAsync(UpdateQuestionCategoriesDTO updateQuestionCategories);
         Task DeleteQuestionCategoriesAsync(int questionCategoriesId);
         Task<dynamic> GetQuestionByIdAsync(int questionId);
