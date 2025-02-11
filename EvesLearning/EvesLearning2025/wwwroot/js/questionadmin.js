@@ -11,6 +11,13 @@
                 tableBody.empty(); // Xóa nội dung cũ (nếu có)
 
                 console.log(data);
+
+                const formatDate = (date) => {
+                    if (!date) return ""; // Kiểm tra null hoặc undefined
+                    const d = new Date(date);
+                    return d.toLocaleDateString('vi-VN') + " " + d.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+                };
+
                 data.forEach(item => {
                     const getValue = (value) => value === null || value === undefined ? "" : value;
 
@@ -29,8 +36,8 @@
                             <td>${getValue(item.Correct)}</td>
                             <td>${getValue(item.CreatedBy)}</td>
                             <td>${getValue(item.ModifyBy)}</td>
-                            <td>${getValue(item.DateCreated)}</td>
-                            <td>${getValue(item.DateModify)}</td>    
+                            <td>${formatDate(item.DateCreated)}</td>
+                            <td>${formatDate(item.DateModify)}</td>  
                             <td>
                                 <button type="button" class="btn btn-primary btn-update" data-id="${item.ID}">Cập nhật</button>
                                 <button type="button" class="btn btn-danger btn-delete" data-id="${item.ID}">Xóa</button>
@@ -366,6 +373,29 @@
     // Gán sự kiện click cho nút "Tải mẫu Excel"
     $("#btnDownloadTemplate").on("click", function () {
         downloadExcelTemplate();
+    });
+
+    // Xử lý khi nhấn nút "Xóa"
+    $("table").on("click", ".btn-delete", function () {
+        const questionId = $(this).data("id");
+
+        if (!confirm("Bạn có chắc chắn muốn xóa không?")) {
+            return;
+        }
+
+        $.ajax({
+            url: `${apiBaseUrl}/api/Question/${questionId}`,
+            type: "DELETE",
+            contentType: "application/json",
+            success: function (response) {
+                alert("Xóa thành công!");
+                fetchData();
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi xóa:", error);
+                alert("Có lỗi xảy ra khi xóa.");
+            }
+        });
     });
 
 });

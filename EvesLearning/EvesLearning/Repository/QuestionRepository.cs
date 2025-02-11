@@ -859,5 +859,33 @@ namespace EvesLearning.Repository
             return await Task.FromResult(package.GetAsByteArray());
 
         }
-    }
+
+		public async Task DeleteQuestionAsync(int questionId)
+		{
+			if (questionId <= 0)
+			{
+				throw new ArgumentException("Invalid question ID", nameof(questionId));
+			}
+
+			var existingQuestion = await _context.Questions
+				.FirstOrDefaultAsync(q => q.Id == questionId);
+
+			if (existingQuestion == null)
+			{
+				throw new KeyNotFoundException($"QuestionGrammar with ID {questionId} not found.");
+			}
+
+			existingQuestion.Deleted = 1;
+
+			var existingQuestionAnswers = await _context.QuestionAnswers
+		.Where(qa => qa.QuestionId == questionId)
+		.ToListAsync();
+
+			foreach (var answer in existingQuestionAnswers)
+			{
+				answer.Deleted = 1;
+			}
+			await _context.SaveChangesAsync();
+		}
+	}
 }
