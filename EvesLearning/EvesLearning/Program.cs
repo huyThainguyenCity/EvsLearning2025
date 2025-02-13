@@ -14,6 +14,7 @@ builder.Services.AddDbContext<eLearningContext>(option => option.UseSqlServer(bu
 builder.Services.AddScoped<eLearningContext>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IQuestionRepositoy, QuestionRepository>();
+builder.Services.AddScoped<IExamRepository, ExamRepository>();
 // Thêm dịch vụ CORS
 builder.Services.AddCors(options =>
 {

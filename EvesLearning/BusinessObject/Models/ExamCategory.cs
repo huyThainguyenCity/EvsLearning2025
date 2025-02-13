@@ -16,7 +16,7 @@ namespace BusinessObject.Models
         /// </summary>
         public int? Status { get; set; }
         public int? Index { get; set; }
-        public bool? Deleted { get; set; }
+        public int? Deleted { get; set; }
         public string? CreatedBy { get; set; }
         public string? ModifyBy { get; set; }
         public DateTime? DateCreated { get; set; }
