@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-    let apiBaseUrl = "https://localhost:7118";
 
     function fetchData() {
         $.ajax({

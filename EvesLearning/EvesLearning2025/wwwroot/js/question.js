@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-    let apiBaseUrl = "https://localhost:7118";
 
     // Fetch data từ API
     function fetchData() {

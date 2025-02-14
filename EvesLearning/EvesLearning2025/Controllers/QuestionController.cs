@@ -4,38 +4,51 @@ namespace EvesLearning2025.Controllers
 {
     public class QuestionController : Controller
     {
-        public IActionResult Index()
+		private readonly IConfiguration _config;
+
+		public QuestionController(IConfiguration config)
+		{
+			_config = config;
+		}
+		public IActionResult Index()
         {
-            return View();
+			ViewBag.ApiBaseUrl = _config["ApiBaseUrl"];
+			return View();
         }
         public IActionResult QuestionAdmin()
         {
-            ViewBag.Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+			ViewBag.ApiBaseUrl = _config["ApiBaseUrl"];
+			ViewBag.Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
             return View();
         }
         public IActionResult QuestionLevelAdmin()
         {
-            ViewBag.Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+			ViewBag.ApiBaseUrl = _config["ApiBaseUrl"];
+			ViewBag.Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
             return View();
         }
         public IActionResult QuestionTypeAdmin()
         {
-            ViewBag.Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+			ViewBag.ApiBaseUrl = _config["ApiBaseUrl"];
+			ViewBag.Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
             return View();
         }
 		public IActionResult QuestionGroupAdmin()
 		{
+			ViewBag.ApiBaseUrl = _config["ApiBaseUrl"];
 			ViewBag.Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 			return View();
 		}
 		public IActionResult QuestionGrammarAdmin()
 		{
+			ViewBag.ApiBaseUrl = _config["ApiBaseUrl"];
 			ViewBag.Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 			return View();
 		}
         public IActionResult QuestionCategoriesAdmin()
         {
-            ViewBag.Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+			ViewBag.ApiBaseUrl = _config["ApiBaseUrl"];
+			ViewBag.Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
             return View();
         }
     }
