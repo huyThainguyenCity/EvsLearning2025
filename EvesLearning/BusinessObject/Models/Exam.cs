@@ -23,7 +23,7 @@ namespace BusinessObject.Models
         /// Tồn định mức
         /// </summary>
         public double? QuestionCurrent { get; set; }
-        public double? Total { get; set; }
+        public int? Total { get; set; }
         public string? PromotionalId { get; set; }
         public string? Descriptions { get; set; }
         public string? Note { get; set; }
