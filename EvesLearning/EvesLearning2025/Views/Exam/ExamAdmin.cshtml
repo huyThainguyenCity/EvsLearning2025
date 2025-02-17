@@ -1,0 +1,114 @@
+﻿@{
+    Layout = ViewBag.Layout;
+}
+<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<link href="~/css/questionadmin.css" rel="stylesheet" />
+<script>
+    var apiBaseUrl = "@(ViewBag.ApiBaseUrl)";
+</script>
+<script src="~/js/exam/examadmin.js"></script>
+<div class="table-responsive">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Danh sách bài thi</h3>
+        <!-- Nút Thêm mới -->
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addNewLevel">
+            Thêm mới
+        </button>
+    </div>
+    <table class="table table-bordered">
+        <thead class="table-primary">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Tên đề</th>
+                <th scope="col">Môn thi</th>
+                <th scope="col">Tổng câu</th>
+                <th scope="col">Thời gian</th>
+                <th scope="col">Người tạo</th>
+                <th scope="col">Ngày tạo</th>
+                <th scope="col">Người cập nhật</th>
+                <th scope="col">Ngày cập nhật</th>
+                <th scope="col">Tác vụ</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="addNewLevel" tabindex="-1" aria-labelledby="addNewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addNewModalLabel">Thêm mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Form Thêm mới -->
+                <form id="addNewForm">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Tên đề thi</label>
+                                <div class="d-flex align-items-center">
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Tên môn học</label>
+                                <div class="d-flex align-items-center">
+                                    <input type="text" class="form-control" id="description" name="description" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Thời gian làm bài</label>
+                                <div class="d-flex align-items-center">
+                                    <input type="number" class="form-control" id="reference" name="reference" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Số lượng đề thi</label>
+                                <div class="d-flex align-items-center">
+                                    <input type="number" class="form-control" id="reference" name="reference" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Danh sách câu hỏi -->
+                    <h5 class="mt-3">Danh sách câu hỏi</h5>
+                    <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                        <table class="table table-bordered" id="questionsTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Tên cấp độ</th>
+                                    <th>Số lượng câu hỏi</th>
+                                    <th class="text-center">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dòng sẽ được thêm vào đây -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Nút thêm câu hỏi -->
+                    <button type="button" class="btn btn-success mt-2" id="addQuestionBtn">
+                        <i class="fas fa-plus"></i> Thêm câu hỏi
+                    </button>
+
+                    <!-- Nút lưu -->
+                    <div class="text-end mt-3">
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

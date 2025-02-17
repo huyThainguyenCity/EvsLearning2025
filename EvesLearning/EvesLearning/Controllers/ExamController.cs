@@ -1,5 +1,6 @@
 ﻿using EvesLearning.DTOs;
 using EvesLearning.IRepository;
+using EvesLearning.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +15,35 @@ namespace EvesLearning.Controllers
 		public ExamController(IExamRepository examRepositoy)
 		{
 			_examRepositoy = examRepositoy;
+		}
+
+		[HttpPost("GetAllExam")]
+		public async Task<IActionResult> GetAllExam()
+		{
+			try
+			{
+				var result = await _examRepositoy.GetAllExam();
+				return Ok(result);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest($"Có lỗi xảy ra: {ex.Message}");
+			}
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> AddExam([FromBody] CreateExamDTO examDto)
+		{
+			try
+			{
+				var createdExams = await _examRepositoy.AddExamAsync(examDto);
+				// Trả về danh sách các ExamViewModel sau khi tạo thành công
+				return Ok(new { Message = "Exam added successfully!", Data = createdExams });
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, new { Error = ex.Message });
+			}
 		}
 
 		[HttpPost("ExamLevel")]

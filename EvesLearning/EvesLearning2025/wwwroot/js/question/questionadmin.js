@@ -33,6 +33,8 @@
                             <td>${getValue(item.Answer3)}</td>
                             <td>${getValue(item.Answer4)}</td>
                             <td>${getValue(item.Correct)}</td>
+                            <td>${getValue(item.questionLevelName)}</td>
+                            <td>${getValue(item.questionCateName)}</td>
                             <td>${getValue(item.CreatedBy)}</td>
                             <td>${getValue(item.ModifyBy)}</td>
                             <td>${formatDate(item.DateCreated)}</td>

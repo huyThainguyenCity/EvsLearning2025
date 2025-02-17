@@ -1,7 +1,10 @@
 ﻿using BusinessObject.Models;
+using Dapper;
 using EvesLearning.DTOs;
 using EvesLearning.IRepository;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace EvesLearning.Repository
 {
@@ -12,60 +15,86 @@ namespace EvesLearning.Repository
 		{
 			_context = context;
 		}
+		public async Task<IEnumerable<dynamic>> GetAllExam()
+		{
+			try
+			{
+				var connectionString = _context.Database.GetDbConnection().ConnectionString;
 
-        public async Task AddExamAsync(CreateExamDTO createExam)
-        {
-            if (createExam == null)
-                throw new ArgumentNullException(nameof(createExam));
+				using var connection = new SqlConnection(connectionString);
+				await connection.OpenAsync();
 
-            if (createExam.ExamCount <= 0)
-                throw new ArgumentException("Số lượng đề thi phải lớn hơn 0.");
+				var result = await connection.QueryAsync(
+					"EL_GetAllExam",
+					commandType: CommandType.StoredProcedure
+				);
 
-            List<Exam> createdExams = new List<Exam>();
+				return result;
+			}
+			catch (Exception ex)
+			{
+				throw new Exception($"Error calling stored procedure: {ex.Message}");
+			}
+		}
 
-            for (int i = 0; i < createExam.ExamCount; i++)
-            {
-                List<Question> selectedQuestions = new List<Question>();
+		public async Task<List<ExamViewModel>> AddExamAsync(CreateExamDTO createExam)
+		{
+			if (createExam == null)
+				throw new ArgumentNullException(nameof(createExam));
 
-                foreach (var level in createExam.QuestionLevels)
-                {
-                    int levelId = level.Key;
-                    int questionCount = level.Value;
+			if (createExam.ExamCount <= 0)
+				throw new ArgumentException("Số lượng đề thi phải lớn hơn 0.");
 
-                    var questions = await _context.Questions
-                        .Where(q => q.QuestionLevelId == levelId)
-                        .OrderBy(q => Guid.NewGuid()) // Random câu hỏi
-                        .Take(questionCount)
-                        .ToListAsync();
+			List<Exam> createdExams = new List<Exam>();
 
-                    if (questions.Count < questionCount)
-                        throw new InvalidOperationException($"Không đủ câu hỏi cho level {levelId}");
+			for (int i = 0; i < createExam.ExamCount; i++)
+			{
+				List<Question> selectedQuestions = new List<Question>();
 
-                    selectedQuestions.AddRange(questions);
-                }
+				foreach (var level in createExam.QuestionLevels)
+				{
+					int levelId = level.Key;
+					int questionCount = level.Value;
 
-                var exam = new Exam
-                {
-                    ExamCategoryId = createExam.ExamCategoryID,
-                    Name = $"{createExam.Name} - Đề {i + 1}",
-                    FullTime = createExam.FullTime,
-                    Total = selectedQuestions.Count,
-                    Deleted = createExam.Deleted ?? 0,
-                    CreatedBy = createExam.CreatedBy,
-                    DateCreated = createExam.DateCreated ?? DateTime.Now,
-                    QuestionListId = string.Join(",", selectedQuestions.Select(q => q.Id)) // Lưu danh sách ID câu hỏi dưới dạng chuỗi
-                };
+					var questions = await _context.Questions
+						.Where(q => q.QuestionLevelId == levelId)
+						.OrderBy(q => Guid.NewGuid()) // Random câu hỏi
+						.Take(questionCount)
+						.ToListAsync();
 
-                _context.Exams.Add(exam);
-                await _context.SaveChangesAsync();
+					if (questions.Count < questionCount)
+						throw new InvalidOperationException($"Không đủ câu hỏi cho level {levelId}");
 
-                createdExams.Add(exam);
-            }
-            //return createdExams.Select(e => new { e.Id, e.Name, e.QuestionListId }).ToList();
+					selectedQuestions.AddRange(questions);
+				}
 
-        }
+				var exam = new Exam
+				{
+					ExamCategoryId = createExam.ExamCategoryID,
+					Name = $"{createExam.Name} - Đề {i + 1}",
+					FullTime = createExam.FullTime,
+					Total = selectedQuestions.Count,
+					Deleted = createExam.Deleted ?? 0,
+					CreatedBy = createExam.CreatedBy,
+					DateCreated = createExam.DateCreated ?? DateTime.Now,
+					QuestionListId = string.Join(",", selectedQuestions.Select(q => q.Id)) // Lưu danh sách ID câu hỏi dưới dạng chuỗi
+				};
 
-        public async Task AddExamCategoriesAsync(CreateExamCategoriesDTO CreateExamCategories)
+				_context.Exams.Add(exam);
+				await _context.SaveChangesAsync();
+
+				createdExams.Add(exam);
+			}
+			var result = createdExams.Select(e => new ExamViewModel
+			{
+				Id = e.Id,
+				Name = e.Name,
+				QuestionListId = e.QuestionListId
+			}).ToList();
+			return result;
+		}
+
+		public async Task AddExamCategoriesAsync(CreateExamCategoriesDTO CreateExamCategories)
 		{
 			if (CreateExamCategories == null)
 				throw new ArgumentNullException(nameof(CreateExamCategories));
@@ -101,5 +130,7 @@ namespace EvesLearning.Repository
 
 			await _context.SaveChangesAsync();
 		}
+
+		
 	}
 }
