@@ -6,5 +6,6 @@ namespace EvesLearning.IRepository
     {
 		Task AddExamLevelAsync(CreateExamLevelDTO createExamLevel);
 		Task AddExamCategoriesAsync(CreateExamCategoriesDTO CreateExamCategories);
-	}
+        Task AddExamAsync(CreateExamDTO createExam);
+    }
 }
