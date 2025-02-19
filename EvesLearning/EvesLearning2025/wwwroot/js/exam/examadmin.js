@@ -32,7 +32,7 @@
                             <td>${getValue(item.ModifyBy)}</td>
                             <td>${formatDate(item.DateModify)}</td>
                             <td>
-                               <button type="button" class="btn btn-primary btn-update" data-id="${item.ID}">Xuất câu hỏi</button>
+                               <button type="button" class="btn btn-primary btn-excel" data-id="${item.ID}">Xuất câu hỏi</button>
                             </td> 
                         </tr>
                     `;
@@ -262,6 +262,52 @@
             }
         });
     });
+
+    $(document).on("click", ".btn-excel", function () {
+        const examId = $(this).data("id"); // Lấy ID của đề thi
+
+        if (!examId) {
+            alert("Không tìm thấy ID đề thi!");
+            return;
+        }
+
+        // Gửi AJAX request để gọi API xuất Excel
+        $.ajax({
+            url: `${apiBaseUrl}/api/Exam/export/${examId}`,
+            type: "GET", // Hoặc "GET" tùy API
+            data: JSON.stringify({ id: examId }), // Truyền ID vào body
+            contentType: "application/json",
+            xhrFields: {
+                responseType: 'blob' // Nhận file Blob (Excel)
+            },
+            success: function (data, status, xhr) {
+                // Kiểm tra header để lấy tên file
+                const disposition = xhr.getResponseHeader("Content-Disposition");
+                let filename = "DanhSachCauHoi.xlsx"; // Tên mặc định
+                if (disposition && disposition.includes("filename=")) {
+                    filename = disposition.split("filename=")[1].replace(/"/g, "");
+                }
+
+                // Tạo link tải file
+                const blob = new Blob([data], { type: xhr.getResponseHeader("content-type") });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+
+                alert("Xuất Excel thành công!");
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi xuất Excel:", xhr.responseText);
+                alert("Có lỗi khi xuất Excel, vui lòng thử lại!");
+            }
+        });
+    });
+
 
 
 });

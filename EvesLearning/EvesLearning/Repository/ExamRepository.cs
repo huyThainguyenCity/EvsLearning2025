@@ -1,4 +1,5 @@
 ﻿using BusinessObject.Models;
+using ClosedXML.Excel;
 using Dapper;
 using EvesLearning.DTOs;
 using EvesLearning.IRepository;
@@ -131,6 +132,79 @@ namespace EvesLearning.Repository
 			await _context.SaveChangesAsync();
 		}
 
-		
-	}
+        public async Task<byte[]> ExportExamToExcel(int examId)
+        {
+            try
+            {
+                var connectionString = _context.Database.GetDbConnection().ConnectionString;
+
+                using var connection = new SqlConnection(connectionString);
+                await connection.OpenAsync();
+
+                // Gọi Stored Procedure với tham số @ExamID
+                var result = await connection.QueryAsync<dynamic>(
+                    "EL_GetAllQuestionExam",
+                    new { ExamID = examId }, // Truyền tham số cho SP
+                    commandType: CommandType.StoredProcedure
+                );
+
+                var listData = result.ToList();
+                if (listData.Count == 0)
+                {
+                    throw new Exception("Không có dữ liệu để xuất.");
+                }
+
+                // Tạo DataTable để lưu dữ liệu
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Name", typeof(string));
+                dt.Columns.Add("Answer1", typeof(string));
+                dt.Columns.Add("Answer2", typeof(string));
+                dt.Columns.Add("Answer3", typeof(string));
+                dt.Columns.Add("Answer4", typeof(string));
+                dt.Columns.Add("Correct", typeof(string));
+
+                // Đổ dữ liệu vào DataTable
+                foreach (var item in listData)
+                {
+                    dt.Rows.Add(item.Name, item.Answer1, item.Answer2, item.Answer3, item.Answer4, item.Correct);
+                }
+
+                using (var workbook = new XLWorkbook())
+                {
+                    var worksheet = workbook.Worksheets.Add("Exam Questions");
+
+                    // Ghi tiêu đề cột
+                    worksheet.Cell(1, 1).Value = "Name";
+                    worksheet.Cell(1, 2).Value = "Answer1";
+                    worksheet.Cell(1, 3).Value = "Answer2";
+                    worksheet.Cell(1, 4).Value = "Answer3";
+                    worksheet.Cell(1, 5).Value = "Answer4";
+                    worksheet.Cell(1, 6).Value = "Correct";
+
+                    // Đổ dữ liệu vào Excel
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        worksheet.Cell(i + 2, 1).Value = dt.Rows[i]["Name"]?.ToString() ?? "";
+                        worksheet.Cell(i + 2, 2).Value = dt.Rows[i]["Answer1"]?.ToString() ?? "";
+                        worksheet.Cell(i + 2, 3).Value = dt.Rows[i]["Answer2"]?.ToString() ?? "";
+                        worksheet.Cell(i + 2, 4).Value = dt.Rows[i]["Answer3"]?.ToString() ?? "";
+                        worksheet.Cell(i + 2, 5).Value = dt.Rows[i]["Answer4"]?.ToString() ?? "";
+                        worksheet.Cell(i + 2, 6).Value = dt.Rows[i]["Correct"]?.ToString() ?? "";
+                    }
+
+                    worksheet.Columns().AdjustToContents(); // Canh chỉnh cột
+
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        return stream.ToArray(); // Trả về file Excel dạng byte[]
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Lỗi khi xuất Excel: {ex.Message}");
+            }
+        }
+    }
 }
