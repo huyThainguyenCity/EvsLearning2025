@@ -75,5 +75,25 @@ namespace EvesLearning.Controllers
 				return StatusCode(500, new { Error = ex.Message });
 			}
 		}
-	}
+
+        [HttpGet("export/{examId}")]
+        public async Task<IActionResult> ExportExamToExcel(int examId)
+        {
+            try
+            {
+                var fileBytes = await _examRepositoy.ExportExamToExcel(examId);
+                if (fileBytes == null || fileBytes.Length == 0)
+                {
+                    return NotFound("Không có dữ liệu để xuất.");
+                }
+
+                string fileName = $"Exam_{examId}.xlsx";
+                return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Lỗi khi xuất Excel: {ex.Message}");
+            }
+        }
+    }
 }

@@ -49,36 +49,40 @@
       "PackagePath": "staticwebassets\\image\\logo.png"
     },
     {
+      "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\exam\\examadmin.js",
+      "PackagePath": "staticwebassets\\js\\exam\\examadmin.js"
+    },
+    {
       "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\home.js",
       "PackagePath": "staticwebassets\\js\\home.js"
     },
     {
-      "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\question.js",
-      "PackagePath": "staticwebassets\\js\\question.js"
+      "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\question\\question.js",
+      "PackagePath": "staticwebassets\\js\\question\\question.js"
     },
     {
-      "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\questionadmin.js",
-      "PackagePath": "staticwebassets\\js\\questionadmin.js"
+      "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\question\\questionadmin.js",
+      "PackagePath": "staticwebassets\\js\\question\\questionadmin.js"
     },
     {
-      "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\questioncategories.js",
-      "PackagePath": "staticwebassets\\js\\questioncategories.js"
+      "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\question\\questioncategories.js",
+      "PackagePath": "staticwebassets\\js\\question\\questioncategories.js"
     },
     {
-      "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\questiongrammar.js",
-      "PackagePath": "staticwebassets\\js\\questiongrammar.js"
+      "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\question\\questiongrammar.js",
+      "PackagePath": "staticwebassets\\js\\question\\questiongrammar.js"
     },
     {
-      "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\questiongroup.js",
-      "PackagePath": "staticwebassets\\js\\questiongroup.js"
+      "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\question\\questiongroup.js",
+      "PackagePath": "staticwebassets\\js\\question\\questiongroup.js"
     },
     {
-      "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\questionlevel.js",
-      "PackagePath": "staticwebassets\\js\\questionlevel.js"
+      "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\question\\questionlevel.js",
+      "PackagePath": "staticwebassets\\js\\question\\questionlevel.js"
     },
     {
-      "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\questiontype.js",
-      "PackagePath": "staticwebassets\\js\\questiontype.js"
+      "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\question\\questiontype.js",
+      "PackagePath": "staticwebassets\\js\\question\\questiontype.js"
     },
     {
       "Id": "C:\\Users\\huydq\\Desktop\\EvsLearning\\EvsLearning2025\\EvesLearning\\EvesLearning2025\\wwwroot\\js\\site.js",
