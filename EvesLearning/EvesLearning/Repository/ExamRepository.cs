@@ -6,6 +6,7 @@ using EvesLearning.IRepository;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using System.Text.RegularExpressions;
 
 namespace EvesLearning.Repository
 {
@@ -141,10 +142,10 @@ namespace EvesLearning.Repository
                 using var connection = new SqlConnection(connectionString);
                 await connection.OpenAsync();
 
-                // Gọi Stored Procedure với tham số @ExamID
+                // Gọi Stored Procedure lấy dữ liệu
                 var result = await connection.QueryAsync<dynamic>(
                     "EL_GetAllQuestionExam",
-                    new { ExamID = examId }, // Truyền tham số cho SP
+                    new { ExamID = examId },
                     commandType: CommandType.StoredProcedure
                 );
 
@@ -152,21 +153,6 @@ namespace EvesLearning.Repository
                 if (listData.Count == 0)
                 {
                     throw new Exception("Không có dữ liệu để xuất.");
-                }
-
-                // Tạo DataTable để lưu dữ liệu
-                DataTable dt = new DataTable();
-                dt.Columns.Add("Name", typeof(string));
-                dt.Columns.Add("Answer1", typeof(string));
-                dt.Columns.Add("Answer2", typeof(string));
-                dt.Columns.Add("Answer3", typeof(string));
-                dt.Columns.Add("Answer4", typeof(string));
-                dt.Columns.Add("Correct", typeof(string));
-
-                // Đổ dữ liệu vào DataTable
-                foreach (var item in listData)
-                {
-                    dt.Rows.Add(item.Name, item.Answer1, item.Answer2, item.Answer3, item.Answer4, item.Correct);
                 }
 
                 using (var workbook = new XLWorkbook())
@@ -181,15 +167,35 @@ namespace EvesLearning.Repository
                     worksheet.Cell(1, 5).Value = "Answer4";
                     worksheet.Cell(1, 6).Value = "Correct";
 
-                    // Đổ dữ liệu vào Excel
-                    for (int i = 0; i < dt.Rows.Count; i++)
+                    int rowIndex = 2;
+
+                    foreach (var item in listData)
                     {
-                        worksheet.Cell(i + 2, 1).Value = dt.Rows[i]["Name"]?.ToString() ?? "";
-                        worksheet.Cell(i + 2, 2).Value = dt.Rows[i]["Answer1"]?.ToString() ?? "";
-                        worksheet.Cell(i + 2, 3).Value = dt.Rows[i]["Answer2"]?.ToString() ?? "";
-                        worksheet.Cell(i + 2, 4).Value = dt.Rows[i]["Answer3"]?.ToString() ?? "";
-                        worksheet.Cell(i + 2, 5).Value = dt.Rows[i]["Answer4"]?.ToString() ?? "";
-                        worksheet.Cell(i + 2, 6).Value = dt.Rows[i]["Correct"]?.ToString() ?? "";
+                        string nameField = item.Name?.ToString() ?? "";
+                        string imagePath = ExtractImageFromBase64(nameField);
+
+                        if (!string.IsNullOrEmpty(imagePath))
+                        {
+                            // Nếu có ảnh, giữ nguyên text và chèn ảnh vào ô
+                            worksheet.Cell(rowIndex, 1).Value = RemoveBase64FromText(nameField);
+                            var img = worksheet.AddPicture(imagePath)
+                                .MoveTo(worksheet.Cell(rowIndex, 1))
+                                .Scale(0.1); // Điều chỉnh kích thước ảnh để vừa ô
+
+                            worksheet.Row(rowIndex).Height = 120; // Tăng chiều cao dòng
+                        }
+                        else
+                        {
+                            worksheet.Cell(rowIndex, 1).Value = nameField;
+                        }
+
+                        worksheet.Cell(rowIndex, 2).Value = item.Answer1?.ToString() ?? "";
+                        worksheet.Cell(rowIndex, 3).Value = item.Answer2?.ToString() ?? "";
+                        worksheet.Cell(rowIndex, 4).Value = item.Answer3?.ToString() ?? "";
+                        worksheet.Cell(rowIndex, 5).Value = item.Answer4?.ToString() ?? "";
+                        worksheet.Cell(rowIndex, 6).Value = item.Correct?.ToString() ?? "";
+
+                        rowIndex++;
                     }
 
                     worksheet.Columns().AdjustToContents(); // Canh chỉnh cột
@@ -197,7 +203,7 @@ namespace EvesLearning.Repository
                     using (var stream = new MemoryStream())
                     {
                         workbook.SaveAs(stream);
-                        return stream.ToArray(); // Trả về file Excel dạng byte[]
+                        return stream.ToArray();
                     }
                 }
             }
@@ -206,5 +212,35 @@ namespace EvesLearning.Repository
                 throw new Exception($"Lỗi khi xuất Excel: {ex.Message}");
             }
         }
+
+        private string ExtractImageFromBase64(string htmlContent)
+        {
+            try
+            {
+                var match = Regex.Match(htmlContent, "data:image/(?<type>.*?);base64,(?<data>.+?)\"");
+                if (!match.Success) return null;
+
+                var imageData = match.Groups["data"].Value;
+                var imageBytes = Convert.FromBase64String(imageData);
+                var extension = match.Groups["type"].Value.Split(';')[0];
+                var fileName = $"image_{Guid.NewGuid()}.{extension}";
+
+                var filePath = Path.Combine(Path.GetTempPath(), fileName);
+                File.WriteAllBytes(filePath, imageBytes);
+
+                return filePath;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        // Loại bỏ phần base64 trong text (nếu có)
+        private string RemoveBase64FromText(string text)
+        {
+            return Regex.Replace(text, "<img.*?>", "").Trim();
+        }
+
     }
 }
