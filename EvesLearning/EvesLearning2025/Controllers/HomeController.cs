@@ -6,16 +6,17 @@ namespace EvesLearning2025.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+		private readonly IConfiguration _config;
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+		public HomeController(IConfiguration config)
+		{
+			_config = config;
+		}
 
         public IActionResult Index()
         {
-            return View();
+			ViewBag.ApiBaseUrl = _config["ApiBaseUrl"];
+			return View();
         }
 
         public IActionResult Privacy()
