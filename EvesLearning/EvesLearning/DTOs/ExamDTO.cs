@@ -22,4 +22,8 @@
 		public string Name { get; set; }
 		public string QuestionListId { get; set; }
 	}
+    public class ExamRequestModel
+    {
+        public int Id { get; set; }
+    }
 }

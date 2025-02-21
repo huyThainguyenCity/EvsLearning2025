@@ -17,7 +17,31 @@ namespace EvesLearning.Repository
 		{
 			_context = context;
 		}
-		public async Task<IEnumerable<dynamic>> GetAllExam()
+        public async Task<IEnumerable<dynamic>> GetAllQuestionOfExam(ExamRequestModel request)
+        {
+            try
+            {
+                var connectionString = _context.Database.GetDbConnection().ConnectionString;
+
+                using var connection = new SqlConnection(connectionString);
+                await connection.OpenAsync();
+
+                var parameters = new { ExamID = request.Id }; // Truyền tham số vào stored procedure
+
+                var result = await connection.QueryAsync(
+                    "EL_GetAllQuestionExam",
+                    parameters, // Tham số truyền vào
+                    commandType: CommandType.StoredProcedure
+                );
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error calling stored procedure: {ex.Message}");
+            }
+        }
+        public async Task<IEnumerable<dynamic>> GetAllExam()
 		{
 			try
 			{
@@ -144,7 +168,7 @@ namespace EvesLearning.Repository
 
                 // Gọi Stored Procedure lấy dữ liệu
                 var result = await connection.QueryAsync<dynamic>(
-                    "EL_GetAllQuestionExam",
+                    "EL_ExportExcelQuestionExam",
                     new { ExamID = examId },
                     commandType: CommandType.StoredProcedure
                 );
