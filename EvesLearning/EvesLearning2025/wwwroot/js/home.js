@@ -19,14 +19,14 @@
                             <div class="thim-widget-courses thim-widget-courses-base">
                                 <div class="wrapper-item archive-courses row" data-show-page-nav="1" 
                                     itemscope itemtype="http://schema.org/CreativeWork">
-                                    ${data.map(course => `
+                                    ${data.map(exam => `
                                         <article class="col-sm-3">
                                             <div class="inner-course">
                                                 <div class="wrapper-course-thumbnail">
-                                                    <a class="course-thumbnail" href="courses/${course.Id}" aria-hidden="true">
+                                                    <a class="course-thumbnail" href="#" data-id="${exam.ID}">
                                                         <img loading="lazy" decoding="async" src="/image/course-6-1-450x450.jpg" 
-                                                            alt="${course.quesCateName || 'Course Image'}" 
-                                                            title="${course.quesCateName || 'Course Image'}" 
+                                                            alt="${exam.quesCateName || 'Course Image'}" 
+                                                            title="${exam.quesCateName || 'Course Image'}" 
                                                             width="450" height="450">
                                                     </a>
                                                     <div class="teacher_course">
@@ -37,26 +37,26 @@
                                                             </div>
                                                             <div class="author-bio">
                                                                 <div class="author-top">
-                                                                    <a class="name" href="#">Tên đề thi: ${course.Name || 'Unknown'}</a>
+                                                                    <a class="name" href="#">Tên đề thi: ${exam.Name || 'Unknown'}</a>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="course-title">
-                                                    <h2><a href="courses/${course.Id}">Tên môn học: ${course.quesCateName || 'No Title'}</a></h2>
+                                                    <h2><a href="courses/${exam.ID}">Tên môn học: ${exam.quesCateName || 'No Title'}</a></h2>
                                                 </div>
                                                 <div class="wrapper-course-price">
                                                     <div class="course-price">
                                                         <span class="course-item-price">
-                                                            <span class="free">Thời gian thi: ${course.FullTime || 'N/A'}</span>
+                                                            <span class="free">Thời gian thi: ${exam.FullTime || 'N/A'}</span>
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <div class="course-students">
                                                     <span>
                                                         <strong class="students">
-                                                            Số câu hỏi: ${course.Total || 0} câu
+                                                            Số câu hỏi: ${exam.Total || 0} câu
                                                         </strong>
                                                     </span>
                                                 </div>
@@ -81,4 +81,18 @@
 
     // Gọi hàm fetchData khi trang tải xong
     fetchData();
+
+    $(document).ready(function () {
+        $(".wrapper-item").on("click", ".course-thumbnail", function (e) {
+            e.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ <a>
+
+            var examId = $(this).data("id");
+            if (examId) {
+                sessionStorage.setItem("examId", examId); // Lưu examId vào sessionStorage
+                window.location.href = "/Question/Index"; // Chuyển trang mà không để lộ examId trên URL
+            } else {
+                alert("Lỗi: ExamId không hợp lệ!");
+            }
+        });
+    });
 });

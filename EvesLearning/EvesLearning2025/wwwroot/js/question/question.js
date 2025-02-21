@@ -1,21 +1,21 @@
 ﻿$(document).ready(function () {
+    var examId = sessionStorage.getItem("examId"); // Lấy lại examId đã lưu trước đó
 
     // Fetch data từ API
     function fetchData() {
         $.ajax({
-            url: `${apiBaseUrl}/api/Question/GetAllQuestion`,
+            url: `${apiBaseUrl}/api/Exam/GetAllExamOfQuestion`,
             type: "POST",
             contentType: "application/json",
+            data: JSON.stringify({ id: examId }),
             success: function (data) {
                 questionData = data; // Lưu dữ liệu vào questionData
-
                 const quizContainer = document.getElementById("quizContainer");
 
                 if (!quizContainer) {
                     console.error("Không tìm thấy phần tử quizContainer.");
                     return;
                 }
-
                 quizContainer.innerHTML = ""; // Xóa nội dung cũ
 
                 // Duyệt qua từng câu hỏi và thêm câu hỏi và đáp án vào quiz

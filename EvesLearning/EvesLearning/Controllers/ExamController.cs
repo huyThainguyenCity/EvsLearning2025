@@ -31,7 +31,21 @@ namespace EvesLearning.Controllers
 			}
 		}
 
-		[HttpPost]
+        [HttpPost("GetAllExamOfQuestion")]
+        public async Task<IActionResult> GetAllExamOfQuestion([FromBody] ExamRequestModel request)
+        {
+            try
+            {
+                var result = await _examRepositoy.GetAllQuestionOfExam(new ExamRequestModel { Id = request.Id });
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Có lỗi xảy ra: {ex.Message}");
+            }
+        }
+
+        [HttpPost]
 		public async Task<IActionResult> AddExam([FromBody] CreateExamDTO examDto)
 		{
 			try
