@@ -31,7 +31,7 @@ namespace EvesLearning.Controllers
 			}
 		}
 
-        [HttpPost("GetAllExamOfQuestion")]
+        [HttpPost("GetAllQuestionOfExam")]
         public async Task<IActionResult> GetAllExamOfQuestion([FromBody] ExamRequestModel request)
         {
             try
@@ -90,7 +90,27 @@ namespace EvesLearning.Controllers
 			}
 		}
 
-        [HttpGet("export/{examId}")]
+		[HttpPost("ExamResult")]
+		public async Task<IActionResult> AddExamResults([FromBody] List<CreateExamResultDTO> examResultDtos)
+		{
+			try
+			{
+				if (examResultDtos == null || examResultDtos.Count == 0)
+				{
+					return BadRequest(new { Error = "Danh sách kết quả bài thi trống!" });
+				}
+
+				await _examRepositoy.AddExamResultAsync(examResultDtos); // Gọi phương thức mới (danh sách)
+
+				return Ok(new { Message = "Exam results added successfully!" });
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, new { Error = ex.Message });
+			}
+		}
+
+		[HttpGet("export/{examId}")]
         public async Task<IActionResult> ExportExamToExcel(int examId)
         {
             try

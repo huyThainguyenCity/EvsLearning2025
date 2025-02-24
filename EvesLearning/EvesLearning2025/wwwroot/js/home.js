@@ -37,14 +37,14 @@
                                                             </div>
                                                             <div class="author-bio">
                                                                 <div class="author-top">
-                                                                    <a class="name" href="#">Tên đề thi: ${exam.Name || 'Unknown'}</a>
+                                                                    <a class="name">Tên đề thi: ${exam.Name || 'Unknown'}</a>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="course-title">
-                                                    <h2><a href="courses/${exam.ID}">Tên môn học: ${exam.quesCateName || 'No Title'}</a></h2>
+                                                    <h2><a class="exam-link" href="#" data-id="${exam.ID}">Tên môn học: ${exam.quesCateName || 'No Title'}</a></h2>
                                                 </div>
                                                 <div class="wrapper-course-price">
                                                     <div class="course-price">
@@ -83,16 +83,31 @@
     fetchData();
 
     $(document).ready(function () {
+        // Xử lý sự kiện click trên `.course-thumbnail`
         $(".wrapper-item").on("click", ".course-thumbnail", function (e) {
-            e.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ <a>
-
+            e.preventDefault();
             var examId = $(this).data("id");
             if (examId) {
-                sessionStorage.setItem("examId", examId); // Lưu examId vào sessionStorage
-                window.location.href = "/Question/Index"; // Chuyển trang mà không để lộ examId trên URL
+                sessionStorage.setItem("examId", examId);
+                window.location.href = "/Question/Index";
             } else {
                 alert("Lỗi: ExamId không hợp lệ!");
             }
         });
+
+        $(".wrapper-item").on("click", ".exam-link", function (e) {
+            e.preventDefault();
+            console.log("Click vào exam-link!");
+            var examId = $(this).data("id");
+            console.log("examId:", examId);
+            if (examId) {
+                sessionStorage.setItem("examId", examId);
+                window.location.href = "/Question/Index";
+            } else {
+                alert("Lỗi: ExamId không hợp lệ!");
+            }
+        });
+        
     });
+
 });

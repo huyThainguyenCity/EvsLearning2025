@@ -157,7 +157,38 @@ namespace EvesLearning.Repository
 			await _context.SaveChangesAsync();
 		}
 
-        public async Task<byte[]> ExportExamToExcel(int examId)
+		public async Task AddExamResultAsync(List<CreateExamResultDTO> createExamResults)
+		{
+			if (createExamResults == null || createExamResults.Count == 0)
+				throw new ArgumentNullException(nameof(createExamResults));
+
+			var examResults = createExamResults.Select(createExamResult =>
+			{
+				var userChoices = createExamResult.UserChoice?.Split(',').Select(x => x.Trim()).ToList() ?? new List<string>();
+				var correctAnswers = createExamResult.Correct?.Split(',').Select(x => x.Trim()).ToList() ?? new List<string>();
+
+				bool isCorrect = userChoices.Count == correctAnswers.Count && !userChoices.Except(correctAnswers).Any();
+
+				return new ExamResult
+				{
+					ExamId = createExamResult.ExamID,
+					QuestionCategoryId = createExamResult.QuestionCategoryID,
+					QuestionId = createExamResult.QuestionID,
+					UserChoice = createExamResult.UserChoice,
+					Correct = createExamResult.Correct,
+					Deleted = createExamResult.Deleted ?? 0,
+					Score = isCorrect ? 10 : 0,
+					TotalScore = createExamResult.TotalScore,
+					CreatedBy = createExamResult.CreatedBy,
+					DateCreated = createExamResult.DateCreated ?? DateTime.Now
+				};
+			}).ToList();
+
+			_context.ExamResults.AddRange(examResults);
+			await _context.SaveChangesAsync();
+		}
+
+		public async Task<byte[]> ExportExamToExcel(int examId)
         {
             try
             {
@@ -266,5 +297,6 @@ namespace EvesLearning.Repository
             return Regex.Replace(text, "<img.*?>", "").Trim();
         }
 
-    }
+		
+	}
 }
