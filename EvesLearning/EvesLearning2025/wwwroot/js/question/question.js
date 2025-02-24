@@ -4,7 +4,7 @@
     // Fetch data từ API
     function fetchData() {
         $.ajax({
-            url: `${apiBaseUrl}/api/Exam/GetAllExamOfQuestion`,
+            url: `${apiBaseUrl}/api/Exam/GetAllQuestionOfExam`,
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify({ id: examId }),
@@ -17,6 +17,10 @@
                     return;
                 }
                 quizContainer.innerHTML = ""; // Xóa nội dung cũ
+                console.log(data);
+                // Lấy thời gian làm bài từ API (giả sử `FullTime` là số phút)
+                const fullTimeInMinutes = data.length > 0 ? data[0].FullTime || 30 : 30; // Nếu không có, đặt mặc định là 30 phút
+                const fullTimeInSeconds = fullTimeInMinutes * 60;
 
                 // Duyệt qua từng câu hỏi và thêm câu hỏi và đáp án vào quiz
                 data.forEach((question, index) => {
@@ -56,6 +60,7 @@
                 quizContainer.appendChild(submitButton);
 
                 submitButton.addEventListener("click", submitQuiz); // Thêm sự kiện click cho nút submit
+                startTimer(fullTimeInSeconds);
             },
             error: function (xhr, status, error) {
                 console.error("Error:", error);
@@ -109,15 +114,16 @@
     let isSubmitted = false;  // Cờ kiểm tra đã nộp chưa
 
     function submitQuiz() {
-        if (isSubmitted) {
-            alert("Bạn đã nộp bài rồi!");
-            return;
-        }
+        //if (isSubmitted) {
+        //    alert("Bạn đã nộp bài rồi!");
+        //    return;
+        //}
 
         isSubmitted = true;  // Đánh dấu là đã nộp bài
         // Lấy tất cả câu hỏi và câu trả lời đã chọn
         const questions = document.querySelectorAll(".question");
         const userAnswers = [];
+        const examResults = [];
 
         questions.forEach((question, index) => {
             const selectedAnswers = Array.from(question.querySelectorAll(`input[name="question${index + 1}"]:checked`))
@@ -129,6 +135,16 @@
                     SelectedAnswer: selectedAnswers.join(","), // Gửi danh sách đáp án dưới dạng chuỗi "2,3"
                 };
                 userAnswers.push(userAnswer);
+
+                const examResult = {
+                    examID: examId, // ID bài thi
+                    questionCategoryID: questionData[index].QuestionCategoryID, // ID danh mục
+                    questionID: questionData[index].ID, // ID câu hỏi
+                    userChoice: selectedAnswers.join(","), // Đáp án đã chọn
+                    correct: "", // Sẽ cập nhật sau khi có kết quả từ API
+                    totalScore: 100
+                }
+                examResults.push(examResult);
             }
         });
 
@@ -161,14 +177,33 @@
                         // Thêm phần tử kết quả vào câu hỏi
                         questionDiv.appendChild(resultDiv);
                     }
+                    if (examResults[index]) {
+                        examResults[index].correct = result.correctAnswer;
+                    }
                 });
+                //sendExamResult(examResults);
+                console.log(examResults);
             },
             error: function (xhr, status, error) {
                 console.error("Error:", error);
                 alert("Có lỗi xảy ra khi gửi câu trả lời.");
             }
         });
+        $.ajax({
+            url: `${apiBaseUrl}/api/Exam/ExamResult`,
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(examResults),
+            success: function () {
+                console.log("Dữ liệu đã gửi lên API AddExamResult.");
+                alert("Bài thi đã được lưu!");
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi khi gửi kết quả bài thi:", error);
+                alert("Có lỗi xảy ra khi gửi kết quả bài thi!");
+            }
+        });
     }
 
-    startTimer(60);
+//    startTimer(60);
 });

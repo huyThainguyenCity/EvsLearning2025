@@ -9,6 +9,7 @@ namespace EvesLearning.IRepository
         Task AddExamLevelAsync(CreateExamLevelDTO createExamLevel);
 		Task AddExamCategoriesAsync(CreateExamCategoriesDTO CreateExamCategories);
         Task<List<ExamViewModel>> AddExamAsync(CreateExamDTO createExam);
-        Task<byte[]> ExportExamToExcel(int examId);
+		Task AddExamResultAsync(List<CreateExamResultDTO> createExamResult);
+		Task<byte[]> ExportExamToExcel(int examId);
     }
 }
