@@ -49,7 +49,7 @@
                                                 <div class="wrapper-course-price">
                                                     <div class="course-price">
                                                         <span class="course-item-price">
-                                                            <span class="free">Thời gian thi: ${exam.FullTime || 'N/A'}</span>
+                                                            <span class="free">Thời gian thi: ${exam.FullTime || 'N/A'} phút</span>
                                                         </span>
                                                     </div>
                                                 </div>

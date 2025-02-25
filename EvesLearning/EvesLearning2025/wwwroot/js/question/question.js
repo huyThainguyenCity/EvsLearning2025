@@ -114,10 +114,10 @@
     let isSubmitted = false;  // Cờ kiểm tra đã nộp chưa
 
     function submitQuiz() {
-        //if (isSubmitted) {
-        //    alert("Bạn đã nộp bài rồi!");
-        //    return;
-        //}
+        if (isSubmitted) {
+            alert("Bạn đã nộp bài rồi!");
+            return;
+        }
 
         isSubmitted = true;  // Đánh dấu là đã nộp bài
         // Lấy tất cả câu hỏi và câu trả lời đã chọn
@@ -153,54 +153,57 @@
             url: `${apiBaseUrl}/api/Question/GetCheckQuestion`,
             type: "POST",
             contentType: "application/json",
-            data: JSON.stringify(userAnswers), // Chuyển đổi dữ liệu người dùng thành JSON
+            data: JSON.stringify(userAnswers),
             success: function (data) {
                 console.log(data);
-                // Xử lý kết quả trả về từ API
+
                 data.forEach((result, index) => {
-                    // Tìm câu hỏi dựa trên ID
+                    console.log(result);
                     const questionDiv = document.getElementById(`question${index + 1}`);
                     if (questionDiv) {
-                        // Tạo phần tử để hiển thị kết quả
                         const resultDiv = document.createElement("div");
                         resultDiv.classList.add("result");
 
-                        // Hiển thị "Đúng" hoặc "Sai" cùng với đáp án đúng
                         if (result.isCorrect) {
                             resultDiv.textContent = `Đúng!`;
-                            resultDiv.style.color = "green";  // Màu xanh cho đáp án đúng
+                            resultDiv.style.color = "green";
                         } else {
                             resultDiv.textContent = `Sai! Đáp án đúng là: ${result.correctAnswer}`;
-                            resultDiv.style.color = "red";  // Màu đỏ cho đáp án sai
+                            resultDiv.style.color = "red";
                         }
 
-                        // Thêm phần tử kết quả vào câu hỏi
                         questionDiv.appendChild(resultDiv);
                     }
-                    if (examResults[index]) {
-                        examResults[index].correct = result.correctAnswer;
+
+                    // Cập nhật danh sách examResults
+                    const matchingExamResult = examResults.find(exam => exam.questionID === result.questionId);
+                    if (matchingExamResult) {
+                        matchingExamResult.correct = result.correctAnswer;
                     }
                 });
-                //sendExamResult(examResults);
-                console.log(examResults);
+
+                console.log("examResults sau khi cập nhật:", examResults);
+
+                // Gửi request thứ hai sau khi cập nhật examResults
+                $.ajax({
+                    url: `${apiBaseUrl}/api/Exam/ExamResult`,
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(examResults),
+                    success: function () {
+                        console.log("Dữ liệu đã gửi lên API AddExamResult.");
+                        alert("Bài thi đã được lưu!");
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Lỗi khi gửi kết quả bài thi:", error);
+                        alert("Có lỗi xảy ra khi gửi kết quả bài thi!");
+                    }
+                });
+
             },
             error: function (xhr, status, error) {
                 console.error("Error:", error);
                 alert("Có lỗi xảy ra khi gửi câu trả lời.");
-            }
-        });
-        $.ajax({
-            url: `${apiBaseUrl}/api/Exam/ExamResult`,
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(examResults),
-            success: function () {
-                console.log("Dữ liệu đã gửi lên API AddExamResult.");
-                alert("Bài thi đã được lưu!");
-            },
-            error: function (xhr, status, error) {
-                console.error("Lỗi khi gửi kết quả bài thi:", error);
-                alert("Có lỗi xảy ra khi gửi kết quả bài thi!");
             }
         });
     }
